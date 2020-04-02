@@ -17,6 +17,7 @@
                 <th scope="col">Operator</th>
                 <th scope="col">Focus</th>
                 <th scope="col">Shot</th>
+                <th scope="col">Intensity</th>
                 <th scope="col">Color</th>
                 <th scope="col">Time</th>
               </tr>
@@ -24,7 +25,7 @@
             {% if spotCueList %}
             <tbody>
                 {% for spotCue in spotCueList %}
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="row">{{spotCue.eosCueNumber}}</th>
                         <td>{{spotCue.cueLabel}}</td>
                         <td>{{spotCue.pageNumber}}</td>
@@ -38,7 +39,11 @@
                                 <td>{{action.operator}}</td>
                                 <td>{{action.focus}}</td>
                                 <td>{{action.shotType}}</td>
-                                <td>{{action.color}}</td>
+                                <td>{{action.intensity}}</td>
+                                <td>{{action.color}} 
+                                    <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
+                                    display: inline-block;"></span>
+                                </td>
                                 <td>{{action.fadeTime}}</td>
                             </tr>
                         {% endfor %}

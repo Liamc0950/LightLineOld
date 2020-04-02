@@ -15,12 +15,10 @@ class Followspot(models.Model):
 class Color(models.Model):
     colorName = models.CharField(max_length = 32)
     colorCode = models.CharField(max_length = 16)
-    colorRed = models.IntegerField(default=255)
-    colorGreen = models.IntegerField(default=255)
-    colorBlue = models.IntegerField(default=255)
+    colorHex = models.CharField(max_length = 32, default="0xFFFFFFFF")
 
     def __str__(self):
-        return self.colorName
+        return self.colorCode
 
 class Operator(models.Model):
     operatorNumber = models.IntegerField(default=1)
