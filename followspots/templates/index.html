@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% include "_modal.html" %}
+        <nav class="navbar navbar-dark bg-dark sticky-top">
+            <a class="navbar-brand" href="#">Followspot Tracking</a>
+            <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button class="createSpotCue btn btn-secondary" type="button" name="button">Add Spot Cue</button>
+                    <button class="createAction btn btn-secondary"type="button" name="button">Add Followspot Action</button>
+                    <button class="createOperator btn btn-secondary"type="button" name="button">Add Operator</button>
+                    <button class="createFocus btn btn-secondary"type="button" name="button">Add Focus</button>
+                    <button class="btn btn-secondary"type="button" name="button">Setup Inventory</button>
+                    <button class="btn btn-secondary"type="button" name="button">Print Paperwork</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Cue List Linking
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#">Local Cue List</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Cue Number</th>
+                <th scope="col">Label</th>
+                <th scope="col">Page</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Focus</th>
+                <th scope="col">Shot</th>
+                <th scope="col">Intensity</th>
+                <th scope="col">Color</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            {% if spotCueList %}
+            <tbody>
+                {% for spotCue in spotCueList %}
+                    <tr class="table-dark">
+                        <th scope="row">{{spotCue.eosCueNumber}}</th>
+                        <td>{{spotCue.cueLabel}}</td>
+                        <td>{{spotCue.pageNumber}}</td>
+                    </tr>
+
+                        {% for action in spotCue.getActions %}
+                            <tr>
+                                <th scope="row">{{spotCue.eosCueNumber}}</th>
+                                <td></td>
+                                <td></td>
+                                <td>{{action.operator}}</td>
+                                <td>{{action.focus}}</td>
+                                <td>{{action.shotType}}</td>
+                                <td>{{action.intensity}}</td>
+                                <td>{{action.color}} 
+                                    <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
+                                    display: inline-block;"></span>
+                                </td>
+                                <td>{{action.fadeTime}}</td>
+                            </tr>
+                        {% endfor %}
+                {% endfor %}
+            </tbody>
+            {% endif %}
+        </table>
+
+{% endblock content %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+        $(".createSpotCue").modalForm({
+            formURL: "{% url 'createSpotCue' %}"
+        });
+        $(".createAction").modalForm({
+            formURL: "{% url 'createAction' %}"
+        });
+        $(".createOperator").modalForm({
+            formURL: "{% url 'createOperator' %}"
+        });
+        $(".createFocus").modalForm({
+            formURL: "{% url 'createFocus' %}"
+        });
+    
+    });
+</script>
+{% endblock extrascripts %}
