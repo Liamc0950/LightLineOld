@@ -14,6 +14,7 @@
                     <button class="createAction btn btn-secondary"type="button" name="button">Add Followspot Action</button>
                     <button class="createOperator btn btn-secondary"type="button" name="button">Add Operator</button>
                     <button class="createFocus btn btn-secondary"type="button" name="button">Add Focus</button>
+                    <button class="updateColorFlags btn btn-secondary"type="button" name="button">Setup Boomerang</button>
                     <button class="btn btn-secondary"type="button" name="button">Setup Inventory</button>
                     <button class="btn btn-secondary"type="button" name="button">Print Paperwork</button>
                 </div>
@@ -44,7 +45,7 @@
             {% if spotCueList %}
             <tbody>
                 {% for spotCue in spotCueList %}
-                    <tr class="table-dark">
+                    <tr class="cueCell">
                         <th scope="row">{{spotCue.eosCueNumber}}</th>
                         <td>{{spotCue.cueLabel}}</td>
                         <td>{{spotCue.pageNumber}}</td>
@@ -59,9 +60,14 @@
                                 <td>{{action.focus}}</td>
                                 <td>{{action.shotType}}</td>
                                 <td>{{action.intensity}}</td>
-                                <td>{{action.color}} 
-                                    <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
+                                <td>{{action.getColorOne}} 
+                                    <span class="dot" style= "height: 25px; width: 25px; background-color:{{action.getColorOne.colorHex}}; border-radius: 50%;
                                     display: inline-block;"></span>
+                                    {% if action.getColorTwo != "NC" %}
+                                        {{action.getColorTwo}}
+                                        <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
+                                        display: inline-block;"></span>
+                                    {% endif %}
                                 </td>
                                 <td>{{action.fadeTime}}</td>
                             </tr>

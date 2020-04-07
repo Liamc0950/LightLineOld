@@ -1,0 +1,464 @@
+R3410,Roscosun 1/8 CTO,#fff1da
+R3409,Roscosun 1/4 CTO,#ffe2b5
+R3408,Roscosun 1/2 CTO,#fcc286
+R3411,Roscosun 3/4 CTO,#f7aa4f
+R3407,Roscosun CTO,#f78d1e
+R3444,Eighth Straw (1/8 CTS),#fff2e6
+R3443,Quarter Straw (1/4 CTS),#ffe7d1
+R3442,Half Straw (1/2 CTS),#ffd3a8
+R3441,Full Straw (CTS),#f7b14f
+R3310,Fluorofilter,#ff8170
+R3152,Urban Vapor,#f5802c
+R3405,Roscosun 85 N.3,#b16b2b
+R3406,Roscosun 85 N.6,#925324
+R3150,Industrial Vapor,#d9d473
+R4515,CalColor 15 Yellow,#fffcd2
+R4530,CalColor 30 Yellow,#fffac3
+R4560,CalColor 60 Yellow,#fff685
+R4590,CalColor 90 Yellow,#fff32b
+R2002,Storaro Orange,#ff6c00
+R2003,Storaro Yellow,#ffcb04
+R4615,CalColor 15 Red,#f5bbb0
+R4630,CalColor 30 Red,#f5ad9f
+R4660,CalColor 60 Red,#ff7859
+R4690,CalColor 90 Red,#ff2b2b
+R2001,Storaro Red,#e10700
+R4815,CalColor 15 Pink,#f8bac7
+R4830,CalColor 30 Pink,#f599ab
+R4860,CalColor 60 Pink,#f27089
+R4890,CalColor 90 Pink,#ef486b
+R3318,Tough 1/8 Minusgreen,#fdebf3
+R3314,Tough 1/4 Minusgreen,#fbd7e3
+R3313,Tough 1/2 Minusgreen,#f9c5d8
+R3308,Tough Minusgreen,#f7b1cb
+R3309,3/4 Minusgreen,#ffbfda
+R4715,CalColor 15 Magenta,#f8c1d9
+R4730,CalColor 30 Magenta,#f5a3c7
+R4760,CalColor 60 Magenta,#f173ac
+R4790,CalColor 90 Magenta,#ec008c
+R4915,CalColor 15 Lavender,#e0b9fb
+R4930,CalColor 30 Lavender,#d396ff
+R4960,CalColor 60 Lavender,#b256f4
+R4990,CalColor 90 Lavender,#9900e0
+R3216,Eighth Blue CTB,#eef1ff
+R3208,Quarter Blue CTB,#e8ecff
+R3206,Third Blue CTB,#d6dcff
+R3204,Half Blue CTB,#c9d1ff
+R3203,Three Quarter Blue CTB,#b4beff
+R3202,Full Blue CTB,#909fff
+R3220,Double Blue CTB,#3a54ff
+R4215,CalColor 15 Blue,#cac9ff
+R4230,CalColor 30 Blue,#a298ff
+R4260,CalColor 60 Blue,#755fff
+R4290,CalColor 90 Blue,#5722f1
+R2006,Storaro Azure,#0048ff
+R2007,Storaro Blue,#3a54ff
+R2008,Storaro Indigo,#4100d4
+R2009,Storaro Violet,#630091
+R4307,CalColor 7.5 Cyan,#f0fbff
+R4315,CalColor 15 Cyan,#e7f5f9
+R4330,CalColor 30 Cyan,#b9e3ec
+R4360,CalColor 60 Cyan,#6ccbda
+R4390,CalColor 90 Cyan,#3fbaca
+R2005,Storaro Cyan,#0095a8
+R3317,Tough 1/8 Plusgreen,#f9ffe3
+R3316,Tough 1/4 Plusgreen,#f2fdca
+R3315,Tough 1/2 Plusgreen,#f0ffba
+R3304,Tough Plusgreen,#dcfe92
+R4415,CalColor 15 Green,#cdff9d
+R4430,CalColor 30 Green,#97f459
+
+R4460,CalColor 60 Green,#40dc00
+
+R4490,CalColor 90 Green,#27b900
+
+R2004,Storaro Green,#1f9201
+
+R00,Dempster Open White,#ffffff
+
+R01,Light Bastard Amber,#fbb39a
+
+R02,Bastard Amber,#ffd1ac
+
+R302,Pale Bastard Amber,#fee5cf
+
+R03,Dark Bastard Amber,#fbba9a
+
+R303,Warm Peach,#ff8a4a
+
+R04,Medium Bastard Amber,#f9b09a
+
+R304,Pale Apricot,#fabca9
+
+R05,Rose Tint,#ffd7d3
+
+R305,Rose Gold,#f5bab8
+
+R06,No Color Straw,#fcfadb
+
+R07,Pale Yellow ,#fdfad1
+
+R08,Pale Gold,#ffe0b8
+
+R09,Pale Amber Gold,#ffcb86
+
+R10,Medium Yellow,#fff200
+
+R310,Daffodil,#ffef4f
+
+R11,Light Straw,#ffd21a
+
+R12,Straw ,#fff64d
+
+R312,Canary,#ffea00
+
+R13,Straw Tint ,#ffd88f
+
+R313,Light Relief Yellow,#ffe462
+
+R14,Medium Straw,#fcd419
+
+R15,Deep Straw ,#fecb00
+
+R16,Light Amber,#ffc47d
+
+R316,Gallo Gold,#f7aa4f
+
+R17,Light Flame,#ff934b
+
+R317,Apricot,#ff7418
+
+R18,Flame,#ff9343
+
+R318,Mayan Sun,#ff6f29
+
+R19,Fire,#ff390b
+
+R20,Medium Amber,#ff871c
+
+R21,Golden Amber,#ff6613
+
+R321,Soft Golden Amber,#ff943c
+
+R22,Deep Amber,#ff430a
+
+R23,Orange,#ff5a00
+
+R24,Scarlet,#f50014
+
+R324,Gypsy Red,#f50f39
+
+R25,Orange Red,#e51f00
+
+R325,Henna Sky,#e32b0c
+
+R26,Light Red,#d70229
+
+R27,Medium Red,#b00202
+
+R30,Light Salmon Pink,#ff7a59
+
+R31,Salmon Pink,#ff847f
+
+R331,Shell Pink,#ff9d8d
+
+R32,Medium Salmon Pink,#ff413c
+
+R332,Cherry Rose,#ff2957
+
+R33,No Color Pink,#ffc2d0
+
+R333,Blush Pink,#f9c5d8
+
+R34,Flesh Pink,#ff8d8d
+
+R35,Light Pink,#ffa7bb
+
+R36,Medium Pink,#ff6d96
+
+R336,Billington Pink,#ff73b7
+
+R37,Pale Rose Pink,#f7b1cb
+
+R337,True Pink,#ffafc2
+
+R38,Light Rose,#ffbbe2
+
+R339,Broadway Pink,#ff1283
+
+R39,Skelton Exotic Sangria,#e800bc
+
+R40,Light Salmon,#ff4f1f
+
+R41,Salmon,#ff5d30
+
+R42,Deep Salmon,#ff1c26
+
+R342,Rose Pink,#ff1562
+
+R43,Deep Pink,#ff3e93
+
+R343,Neon Pink,#ff397f
+
+R44,Middle Rose,#ff33b5
+
+R344,Follies Pink,#ff05d3
+
+R45,Rose,#eb016d
+
+R46,Magenta,#bd045d
+
+R346,Tropical Magenta,#ff2dd5
+
+R47,Light Rose Purple,#cc4eb9
+
+R347,Belladonna Rose,#d101dd
+
+R48,Rose Purple,#c800cf
+
+R348,Purple Jazz,#da2dff
+
+R49,Medium Purple,#c900e6
+
+R349,Fisher Fuchsia,#f000ff
+
+R50,Mauve,#bb002c
+
+R51,Surprise Pink,#e6cbff
+
+R351,Lavender Mist,#efdcff
+
+R52,Light Lavender,#ddbfff
+
+R53,Pale Lavender,#e4dcff
+
+R353,Lilly Lavender,#c4adff
+
+R54,Special Lavender,#e6c7ff
+
+R55,Lilac,#c0aafd
+
+R355,Pale Violet,#a590ff
+
+R56,Gypsy Lavender,#8c2fff
+
+R356,Middle Lavender,#c38dff
+
+R57,Lavender,#b482ff
+
+R357,Royal Lavender,#8a2bff
+
+R58,Deep Lavender,#933ffd
+
+R358,Rose Indigo,#8e0aea
+
+R59,Indigo,#7200ff
+
+R359,Medium Violet,#683fff
+
+R60,No Color Blue,#ccd8ff
+
+R360,Clearwater,#c9d1ff
+
+R61,Mist Blue,#d3eaff
+
+R361,Hemsley Blue,#669efc
+
+R62,Booster Blue,#a1ceff
+
+R362,Tipton Blue,#a7bcff
+
+R63,Pale Blue,#a4d3ff
+
+R363,Aquamarine,#abe9ff
+
+R64,Light Steel Blue,#50aefd
+
+R364,Blue Bell,#8ca9ff
+
+R65,Daylight Blue,#00a9ff
+
+R365,Tharon Delft Blue,#909fff
+
+R66,Cool Blue,#94aeff
+
+R366,Jordan Blue,#29c0f9
+
+R67,Light Sky Blue,#14a9ff
+
+R367,Slate Blue,#44a5ff
+
+R68,Parry Sky Blue,#447dff
+
+R368,Winkler Blue,#448aff
+
+R69,Brilliant Blue,#00a3f7
+
+R369,Tahitian Blue,#00c6ff
+
+R70,Nile Blue,#6ce5ff
+
+R370,Italian Blue,#01cddf
+
+R71,Sea Blue,#0096c7
+
+R371,Theatre Booster 1,#a3a8ff
+
+R72,Azure Blue,#55ccff
+
+R372,Theatre Booster 2,#d9dcff
+
+R73,Peacock Blue,#00a4b8
+
+R373,Theatre Booster 3,#e0e9fd
+
+R74,Night Blue,#4200ff
+
+R374,Sea Green,#01a4a6
+
+R75,Twilight Blue,#007aac
+
+R375,Cerulean Blue,#00b5de
+
+R76,Light Green Blue,#005773
+
+R376,Bermuda Blue,#0087b1
+
+R77,Green Blue,#014e95
+
+R377,Iris Purple,#7124ff
+
+R78,Trudy Blue,#6f6fff
+
+R378,Alice Blue,#8474fd
+
+R79,Bright Blue,#1626ff
+
+R80,Primary Blue,#0048ff
+
+R81,Urban Blue,#486fff
+
+R381,Baldassari Blue,#391de6
+
+R82,Surprise Blue,#4f34f8
+
+R382,Congo Blue,#250070
+
+R83,Medium Blue,#0228ec
+
+R383,Sapphire Blue,#0022d1
+
+R84,Zephyr Blue,#5767ff
+
+R384,Midnight Blue,#0500d0
+
+R85,Deep Blue,#0049ce
+
+R385,Royal Blue,#4f02cf
+
+R86,Pea Green,#89fa19
+
+R386,Leaf Green,#7bd300
+
+R87,Pale Yellow Green,#f0ffba
+
+R88,Light Green,#dcfe92
+
+R388,Gaslight Green,#d0f54e
+
+R89,Moss Green,#51f655
+
+R389,Chroma Green,#29f433
+
+R90,Dark Yellow Green,#007f06
+
+R91,Primary Green,#005e2c
+
+R92,Turquoise,#19ffc1
+
+R392,Pacific Green,#009493
+
+R93,Blue Green,#01a3a0
+
+R393,Emerald Green,#007150
+
+R94,Kelly Green,#00985d
+
+R95,Medium Blue Green,#009c91
+
+R395,Teal Green,#00726a
+
+R96,Lime,#f3ff6b
+
+R97,Light Grey,#c0bfc0
+
+R397,Pale Grey,#d4d3d3
+
+R98,Medium Grey,#8f8989
+
+R398,Neutral Grey,#b0b4b9
+
+R99,Chocolate,#d08864
+
+R100,Frost,#ffffff
+
+R101,Light Frost,#ffffff
+
+R102,Light Tough Frost,#ffffff
+
+R103,Tough Frost,#ffffff
+
+R104,Tough Silk,#ffffff
+
+R105,Tough Spun,#ffffff
+
+R106,Light Tough Spun,#ffffff
+
+R111,Tough Rolux,#ffffff
+
+R112,Opal Tough Frost,#ffffff
+
+R113,Matte Silk,#ffffff
+
+R114,Hamburg Frost,#ffffff
+
+R115,Light Tough Rolux,#ffffff
+
+R116,Tough White Diffusion,#ffffff
+
+R117,Tough 1/2 White Diffusion,#ffffff
+
+R118,Tough 1/4 White Diffusion,#ffffff
+
+R119,Light Hamburg Frost,#ffffff
+
+R120,Red Diffusion,#cf000e
+
+R121,Blue Diffusion,#0f27ff
+
+R122,Green Diffusion,#1e9600
+
+R124,Red Cyc Silk,#c90011
+
+R125,Blue Cyc Silk,#001aff
+
+R126,Green Cyc Silk,#1a8f00
+
+R127,Amber Cyc Silk,#ff430a
+
+R132,Quarter Hamburg Frost,#ffffff
+
+R140,Subtle Hamburg Frost,#ffffff
+
+R160,Light Tough Silk,#ffffff
+
+R162,Light Opal,#ffffff
+
+R163,Powder Frost,#ffffff
+
+R1991,Super Heat Shield,#ffffff
+
+R1995,Thermashield,#ffffff
+
+R3114,UV Filter,#ffffff
+

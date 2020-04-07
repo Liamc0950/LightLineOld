@@ -14,21 +14,19 @@ class Color(models.Model):
         return self.colorCode
 
 
-
-class Boomerang(models.Model):
-    lastUpdate = models.DateTimeField(auto_now=True)
-    label = models.CharField(max_length = 100)
-
 class ColorFlag(models.Model):
     lastUpdate = models.DateTimeField(auto_now=True)
     color1 = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='color1')
-    color2 = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='color2', default='None')
-    boomerang = models.ForeignKey(Boomerang, on_delete=models.CASCADE, related_name='color_flag_set', default='None')
+    color2 = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='color2', default='NC')
+    index = models.IntegerField(default=1)
+
+    def __str__(self):
+        return str(self.color1) + " " + str(self.color2)
+
 class Followspot(models.Model):
     lastUpdate = models.DateTimeField(auto_now=True)
     spotType = models.CharField(max_length = 32)
     wattage = models.IntegerField(default=255)
-    boomerang = models.ForeignKey(Boomerang, on_delete=models.CASCADE, default='None')
 
     def __str__(self):
         return self.spotType
@@ -77,8 +75,8 @@ class SpotCue(models.Model):
 class Action(models.Model):
     lastUpdate = models.DateTimeField(auto_now=True)
     fadeTime = models.IntegerField(default=3)
-    colorFlag = models.ForeignKey(ColorFlag, on_delete=models.CASCADE)
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    colorFlag = models.ForeignKey(ColorFlag, on_delete=models.CASCADE)
     focus = models.ForeignKey(Focus, on_delete=models.CASCADE)
     shotType = models.ForeignKey(Shot, on_delete=models.CASCADE)
     cue = models.ForeignKey(SpotCue, default=1, on_delete=models.CASCADE)
@@ -89,8 +87,8 @@ class Action(models.Model):
         return str(self.focus) + " " + str(self.shotType) + " " + str(self.fadeTime)
 
     def getColorOne(self):
-        return colorFlag.color1
+        return self.colorFlag.color1
 
     def getColorTwo(self):
-        return colorFlag.color2
+        return self.colorFlag.color2
 

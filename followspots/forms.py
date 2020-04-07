@@ -1,4 +1,4 @@
-from .models import SpotCue, Action, Operator, Focus
+from .models import SpotCue, Action, Operator, Focus, ColorFlag
 from bootstrap_modal_forms.forms import BSModalForm
 
 class SpotCueForm(BSModalForm):
@@ -20,3 +20,9 @@ class FocusForm(BSModalForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']
+        
+class ColorFlagForm(BSModalForm):
+    class Meta:
+        model = ColorFlag
+        exclude = ['lastUpdate']
+

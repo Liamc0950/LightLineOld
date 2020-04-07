@@ -13,3 +13,7 @@ body {
     height: 56px;
     background-color: darkgray;
 }
+
+.cueCell {
+    background-color: grey;
+}

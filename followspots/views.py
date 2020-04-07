@@ -5,8 +5,9 @@ from django.template import loader
 from django.urls import reverse_lazy
 
 from django.shortcuts import render
-from .models import SpotCue
+from .models import SpotCue, ColorFlag, Color
 from .forms import SpotCueForm, ActionForm, OperatorForm, FocusForm
+
 
 from bootstrap_modal_forms.generic import BSModalCreateView
 
@@ -26,6 +27,8 @@ class SpotCueCreateView(BSModalCreateView):
     success_message = 'Success: Spot Cue was created.'
     success_url = reverse_lazy('index')
 
+
+
 class ActionCreateView(BSModalCreateView):
     template_name = 'followspots/createAction.html'
     form_class = ActionForm
@@ -43,3 +46,4 @@ class FocusCreateView(BSModalCreateView):
     form_class = FocusForm
     success_message = 'Success: Focus was added.'
     success_url = reverse_lazy('index')
+

@@ -11,7 +11,4 @@ admin.site.register(Followspot)
 admin.site.register(Operator)
 admin.site.register(Focus)
 admin.site.register(Shot)
-
-
-
-# Register your models here.
+admin.site.register(ColorFlag)
