@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    {% block stylesheets %}
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <!-- Font awesome CSS -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+      
+      <link rel="stylesheet" href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+
+        <!-- Custom CSS -->
+      <link rel="stylesheet" href="{% static 'assets/css/mainStyle.css' %}">
+        <!-- SIDEBAR -->
+        <link rel="stylesheet" href="{% static 'assets/css/navStyle.scss' %}">
+        <link rel="stylesheet" href="css/mainSidebar.css">
+        <link rel="stylesheet" href="css/sidebar-themes.css">
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    
+    {% endblock stylesheets %}
+
+    <title>LightLine | Followspot Tracking</title>
+  </head>
+
+  <body>
+    <!-- Includes -->
+    {% block content %}{% endblock content %}
+
+    <!-- Includes -->
+    {% include "_footer.html" %}
+
+    <!-- JavaScript -->
+    {% block scripts %}
+      <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    {% endblock scripts %}
+
+    {% block extrascripts %}{% endblock extrascripts %}
+
+  </body>
+
+</html>

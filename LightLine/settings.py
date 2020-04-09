@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'followspots.apps.FollowspotsConfig',
+    'lightlineapp.apps.LightLineAppConfig',
     'bootstrap_modal_forms',
     'django.contrib.admin',
     'django.contrib.auth',
