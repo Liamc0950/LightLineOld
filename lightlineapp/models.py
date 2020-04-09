@@ -68,6 +68,7 @@ class SpotCue(models.Model):
     def __str__(self):
         return self.cueLabel
 
+    #Return array of Actions that have this spot cue as their cue field
     def getActions(self):
         return Action.objects.filter(cue=self)
 
@@ -87,8 +88,29 @@ class Action(models.Model):
         return str(self.focus) + " " + str(self.shotType) + " " + str(self.fadeTime)
 
     def getColorOne(self):
+        
+
         return self.colorFlag.color1
 
     def getColorTwo(self):
         return self.colorFlag.color2
+    """
+    def getColorFlagClass(self):
+        opActions = Action.objects.filter(operator=self.operator)
+        lastAction = Action.objects.filter(operator=self.operator).filter(cue.eosCueNumber<self.cue.eosCueNumber).order_by('eosCueNumber')[:2]
+        if lastAction[0].colorFlag == self.colorFlag and lastAction[1].colorFlag == self.colorFlag:
+            return ""
+        elif lastAction[0].colorFlag != self.colorFlag:
+            return "hotChange"
+        elif lastAction[1].colorFlag != self.colorFlag:
+            return "darkChange"
+    """
+    
+    def getFocusClass(self):
+        return
+    
+    def getShotTypeClass(self):
+        return
 
+    def getIntensityTypeClass(self):
+        return

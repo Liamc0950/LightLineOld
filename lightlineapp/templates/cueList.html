@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <center><h1 class="text-light">Under Construction</h1></center>
+    
+{% endblock content %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+        $(".createSpotCue").modalForm({
+            formURL: "{% url 'createSpotCue' %}"
+        });
+        $(".createAction").modalForm({
+            formURL: "{% url 'createAction' %}"
+        });
+        $(".createOperator").modalForm({
+            formURL: "{% url 'createOperator' %}"
+        });
+        $(".createFocus").modalForm({
+            formURL: "{% url 'createFocus' %}"
+        });
+    
+    });
+</script>
+{% endblock extrascripts %}

@@ -14,8 +14,21 @@ from bootstrap_modal_forms.generic import BSModalCreateView
 
 def index(request):
     template = loader.get_template('index.html')
-    return HttpResponse(template.render(request))
+    context={}
+    return HttpResponse(template.render(context, request))
 
+def notes(request):
+    template = loader.get_template('notes.html')
+    context={}
+    return HttpResponse(template.render(context, request))
+def cueList(request):
+    template = loader.get_template('cueList.html')
+    context={}
+    return HttpResponse(template.render(context, request))
+def database(request):
+    template = loader.get_template('database.html')
+    context={}
+    return HttpResponse(template.render(context, request))
 
 def followspots(request):
     spotCueList = SpotCue.objects.order_by('eosCueNumber')[:20]
