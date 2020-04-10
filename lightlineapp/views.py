@@ -8,28 +8,39 @@ from django.shortcuts import render
 from .models import SpotCue, ColorFlag, Color
 from .forms import SpotCueForm, ActionForm, OperatorForm, FocusForm
 
+from django.contrib.auth.decorators import login_required
 
 from bootstrap_modal_forms.generic import BSModalCreateView
 
-
+#Landing page View
 def index(request):
     template = loader.get_template('index.html')
     context={}
     return HttpResponse(template.render(context, request))
 
+@login_required
+#Notes feature view
 def notes(request):
     template = loader.get_template('notes.html')
     context={}
     return HttpResponse(template.render(context, request))
+
+@login_required
+#CueList feature view    
 def cueList(request):
     template = loader.get_template('cueList.html')
     context={}
     return HttpResponse(template.render(context, request))
+
+@login_required
+#Database feature view
 def database(request):
     template = loader.get_template('database.html')
     context={}
     return HttpResponse(template.render(context, request))
 
+@login_required
+#Followspots feature view
 def followspots(request):
     spotCueList = SpotCue.objects.order_by('eosCueNumber')[:20]
     template = loader.get_template('followspots.html')
@@ -38,13 +49,12 @@ def followspots(request):
     }
     return HttpResponse(template.render(context, request))
 
-
+#Followspot Modal Views
 class SpotCueCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createSpotCue.html'
     form_class = SpotCueForm
     success_message = 'Success: Spot Cue was created.'
     success_url = reverse_lazy('followspots')
-
 
 class ActionCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createAction.html'

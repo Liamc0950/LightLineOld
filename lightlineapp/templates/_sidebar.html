@@ -10,10 +10,10 @@
                 <img class="img-responsive img-rounded" src="img/user.jpg" alt="User picture">
             </div>
             <div class="user-info">
-                <span class="user-name">Liam
-                    <strong>Corley</strong>
+                <span class="user-name">{{ user.first_name }}
+                    <strong>{{user.last_name}}</strong>
                 </span>
-                <span class="user-role">Administrator</span>
+                <span class="user-role">{{ user.get_username }}</span>
                 <span class="user-status">
                     <i class="fa fa-circle"></i>
                     <span>Online</span>
@@ -89,7 +89,8 @@
             </div>
         </div>
         <div>
-            <a href="#">
+            <!--LOGOUT-->
+            <a href="/lightlineapp/logout/#">
                 <i class="fa fa-power-off"></i>
             </a>
         </div>
