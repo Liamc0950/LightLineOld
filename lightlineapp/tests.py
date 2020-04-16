@@ -3,14 +3,17 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
-# Create your tests here.
+from myapp.models import Action, ShotCue, Operator
 
-def test_getActions(self):
-    """
-    getActions() returns True for questions whose pub_date
-    is within the last day.
-    time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
-    recent_question = Question(pub_date=time)
-    self.assertIs(recent_question.was_published_recently(), True)
+class AnimalTestCase(TestCase):
+    def setUp(self):
+        cue = ShotCue.objects.create(eosCueNumber=1)
+        op = Operator.objects.create(operatorName = "test")
+        Action.objects.create(operator = op, cue = cue)
 
-    """
+    def test_animals_can_speak(self):
+        """Animals that can speak are correctly identified"""
+        lion = Animal.objects.get(name="lion")
+        cat = Animal.objects.get(name="cat")
+        self.assertEqual(lion.speak(), 'The lion says "roar"')
+        self.assertEqual(cat.speak(), 'The cat says "meow"')

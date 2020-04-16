@@ -2,6 +2,7 @@
     color: #dc3545;
     font-size: 80%;
   }
+
 body {
     display: flex;
     flex-direction: column;
@@ -23,9 +24,17 @@ body {
 }
 
 .darkChange {
-    color: green;
+    color: 	#a4ffaf !important;
 }
 
 .hotChange {
-    color: red;
+    color: #ff7878 !important;
+}
+
+.easyChange {
+    color: #a886ff !important;
+}
+
+.noChange {
+    color: #84a5ff;
 }

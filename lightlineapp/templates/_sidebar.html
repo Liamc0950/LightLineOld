@@ -15,8 +15,7 @@
                 </span>
                 <span class="user-role">{{ user.get_username }}</span>
                 <span class="user-status">
-                    <i class="fa fa-circle"></i>
-                    <span>Online</span>
+                    <span>{{ user.profile.role}}</span>
                 </span>
             </div>
         </div>
@@ -55,14 +54,39 @@
                     </a>
                 </li>
                 <li class="header-menu">
-                    <span>Extra</span>
+                    <span>Projects</span>
                 </li>
-                <li>
+                <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="fa fa-book"></i>
-                        <span class="menu-text">Documentation</span>
+                        <span class="menu-text">{{activeProject}}</span>
                         <span class="badge badge-pill badge-danger">Beta</span>
                     </a>
+                    <div class="sidebar-submenu">
+                    {% if projects %}                
+                        <ul>
+                            {% for project in projects %}
+                            <li>
+                                <a>
+                                <form method="POST" action="/lightlineapp/switchActiveProject/">
+                                    {% csrf_token %}
+                                    <button type="submit">
+                                        {{ project }}
+                                        <input type="hidden" name="proj" value="{{ project.id }}">
+                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                    </button>
+                                </form>
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li>
+                                <a href="/lightlineapp/createProject">
+                                    Create New Project
+                                </a>
+                            </li>            
+                        </ul>
+                    {% endif %}
+                    </div>
                 </li>
                 <li>
                     <a href="#">

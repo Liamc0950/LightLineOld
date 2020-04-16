@@ -20,7 +20,14 @@ urlpatterns = [
     #followspot app modals
     path('followspots/createSpotCue/', views.SpotCueCreateView.as_view(), name='createSpotCue'),
     path('followspots/createAction/', views.ActionCreateView.as_view(), name='createAction'),
-    path('followspots/createOperator/', views.OperatorCreateView.as_view(), name='createOperator'),
     path('followspots/createFocus/', views.FocusCreateView.as_view(), name='createFocus'),
-    path('followspots/updateColorFlags/', views.FocusCreateView.as_view(), name='updateColorFlags')
+    #followspot app live update
+    path('followspots/updateSpotCue/', views.updateSpotCue, name='updateSpotCue'),
+    path('followspots/updateAction/', views.updateAction, name='updateAction'),
+    #project creation
+    path('createProject/', views.ProjectCreateView.as_view(), name='createProject'),
+    #project selection
+    path('switchActiveProject/', views.switchActiveProject, name='switchActiveProject'),
+    #cueList Selection
+    path('switchActiveCueList/', views.switchActiveCueList, name='switchActiveCueLis'),
 ]

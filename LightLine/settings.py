@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'django.contrib.admin',
     'django.contrib.auth',
+    'funky_sheets',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

@@ -1,7 +1,8 @@
-from .models import SpotCue, Action, Operator, Focus, ColorFlag
+from .models import *
 from bootstrap_modal_forms.forms import BSModalForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.forms.widgets import HiddenInput
 
 from django import forms
 
@@ -14,28 +15,46 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
 
+class ProjectCreateForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = ['lastUpdate']
+        widgets = {'lightingDesigner': forms.HiddenInput(),
+                    'active' : forms.HiddenInput()}
+
+
+
 class SpotCueForm(BSModalForm):
     class Meta:
         model = SpotCue
         exclude = ['lastUpdate']
+        widgets = {'cueList': forms.HiddenInput()}
+
+
 
 class ActionForm(BSModalForm):
     class Meta:
         model = Action
         exclude = ['lastUpdate']
 
-class OperatorForm(BSModalForm):
-    class Meta:
-        model = Operator
-        exclude = ['lastUpdate']
+    def __init__(self,project, activeCueList, *args,**kwargs):
+        super (ActionForm,self ).__init__(*args,**kwargs) # populates the post
+        self.fields['operator'].queryset = Operator.objects.filter(project=project)
+        self.fields['colorFlag'].queryset = ColorFlag.objects.filter(project=project)
+        self.fields['focus'].queryset = Focus.objects.filter(project=project)
+        self.fields['cue'].queryset = SpotCue.objects.filter(cueList=activeCueList)
+
 
 class FocusForm(BSModalForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']
+        widgets = {'project': forms.HiddenInput()}
+
         
 class ColorFlagForm(BSModalForm):
     class Meta:
         model = ColorFlag
         exclude = ['lastUpdate']
+        widgets = {'project': forms.HiddenInput()}
 

@@ -3,98 +3,170 @@
 {% block content %}
 
     {% include "_modal.html" %}
-                    <nav class="navbar navbar-dark bg-dark sticky-top">
-                        <a class="navbar-brand" href="#">Followspot Tracking</a>
-                        <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
-                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="save btn btn-primary" type="button" name="button">Save</button>
-                            </div>
-                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="createSpotCue btn btn-secondary" type="button" name="button">Add Spot Cue</button>
-                                <button class="createAction btn btn-secondary"type="button" name="button">Add Followspot Action</button>
-                                <button class="createOperator btn btn-secondary"type="button" name="button">Add Operator</button>
-                                <button class="createFocus btn btn-secondary"type="button" name="button">Add Focus</button>
-                                <button class="updateColorFlags btn btn-secondary"type="button" name="button">Setup Boomerang</button>
-                                <button class="btn btn-secondary"type="button" name="button">Setup Inventory</button>
-                                <button class="btn btn-secondary"type="button" name="button">Print Paperwork</button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Cue List Linking
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="#">Local Cue List</a>
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-                    <table class="table table-dark table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">Cue Number</th>
-                            <th scope="col">Label</th>
-                            <th scope="col">Page</th>
-                            <th scope="col">Operator</th>
-                            <th scope="col">Focus</th>
-                            <th scope="col">Shot</th>
-                            <th scope="col">Intensity</th>
-                            <th scope="col">Color</th>
-                            <th scope="col">Time</th>
-                        </tr>
-                        </thead>
-                        {% if spotCueList %}
-                        <tbody>
-                            {% for spotCue in spotCueList %}
-                                <tr class="cueCell">
-                                    <th scope="row">{{spotCue.eosCueNumber}}</th>
-                                    <td>{{spotCue.cueLabel}}</td>
-                                    <td>{{spotCue.pageNumber}}</td>
-                                </tr>
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="#">Followspot Tracking</a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button class="createSpotCue btn btn-secondary" type="button" name="button">Add Spot Cue</button>
+                <button class="createAction btn btn-secondary"type="button" name="button">Add Followspot Action</button>
+                <button class="createFocus btn btn-secondary"type="button" name="button">Add Focus</button>
+                <button class="btn btn-secondary"type="button" name="button">Print Paperwork</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{activeCueList}}
+                </button>
+                {% if projectCueLists %}
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    {% for cueList in projectCueLists %}
+                        <form method="POST" action="/lightlineapp/switchActiveCueList/">
+                            {% csrf_token %}
+                            <button class="dropdown-item btn-secondary" type="submit">
+                                {{ cueList }}
+                                <input type="hidden" name="cueList" value="{{ cueList.id }}">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </button>
+                        </form>
+                    {% endfor %}
+                    <a class="dropdown-item btn-secondary" href="#">Create New Cue List</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <table class="table table-dark table-hover table-editable">
+        <thead>
+        <tr>
+            <th scope="col" data-editable="true">Cue Number</th>
+            <th scope="col" data-editable="true">Label</th>
+            <th scope="col" data-editable="true">Page</th>
+            <th scope="col" data-editable="true">Operator</th>
+            <th scope="col" data-editable="true">Focus</th>
+            <th scope="col" data-editable="true">Shot</th>
+            <th scope="col" data-editable="true">Intensity</th>
+            <th scope="col" data-editable="true">Color</th>
+            <th scope="col" data-editable="true">Time</th>
+        </tr>
+        </thead>
+        {% if spotCueList %}
+        <tbody>
+            {% for spotCue in spotCueList %}
+                <tr class="cueCell">
+                    <td class="editable" data-id="{{ spotCue.id }}" data-type="eosCueNumber" scope="row" data-model="SpotCue">{{spotCue.eosCueNumber}}</td>
+                    <td class="editable" data-id="{{ spotCue.id }}" data-type="cueLabel" data-model="SpotCue"> {{spotCue.cueLabel}}</td>
+                    <td class="editable" data-id="{{ spotCue.id }}" data-type="pageNumber" data-model="SpotCue">{{spotCue.pageNumber}}</td>
+                </tr>
 
-                                    {% for action in spotCue.getActions %}
-                                        <tr>
-                                            <th scope="row">{{spotCue.eosCueNumber}}</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="{{action.getColorFlagClass}}"">{{action.operator}}</td>
-                                            <td>{{action.focus}}</td>
-                                            <td>{{action.shotType}}</td>
-                                            <td>{{action.intensity}}</td>
-                                            <td>{{action.getColorOne}} 
-                                                <span class="dot" style= "height: 25px; width: 25px; background-color:{{action.getColorOne.colorHex}}; border-radius: 50%;
-                                                display: inline-block;"></span>
-                                                {% if action.getColorTwo != "NC" %}
-                                                    {{action.getColorTwo}}
-                                                    <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
-                                                    display: inline-block;"></span>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{action.fadeTime}}</td>
-                                        </tr>
-                                    {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                        {% endif %}
-                    </table>
+                    {% for action in spotCue.getActions %}
+                        <tr>
+                            <td class="editable" data-id="{{ spotCue.id }}" data-type="eosCueNumber" scope="row" model="Action"><b>{{spotCue.eosCueNumber}}</b></td>
+                            <td></td>
+                            <td></td>
+                            <td class="editable" data-id="{{ spotCue.id }}" data-type="operator" data-model="Action">{{action.operator}}</td>
+                            <td class="editable {{action.getFocusClass}}" data-id="{{ spotCue.id }}" data-type="focus" data-model="Action">{{action.focus}}</td>
+                            <td class="editable {{action.getShotTypeClass}}" data-id="{{ spotCue.id }}" data-type="shotType" data-model="Action">{{action.shotType}}</td>
+                            <td class="editable {{action.getIntensityClass}}" data-id="{{ spotCue.id }}" data-type="intensity" data-model="Action">{{action.intensity}}</td>
+                            <td class="editable {{action.getColorFlagClass}}" data-id="{{ spotCue.id }}" data-type="colorFlag" data-model="Action">{{action.getColorOne}} 
+                                <span class="dot" style= "height: 25px; width: 25px; background-color:{{action.getColorOne.colorHex}}; border-radius: 50%;
+                                display: inline-block;"></span>
+                                {% if action.getColorTwo != "None" %}
+                                    {{action.getColorTwo}}
+                                    <span class="dot" style= "height: 25px; width: 25px; background-color:#bbb; border-radius: 50%;
+                                    display: inline-block;"></span>
+                                {% endif %}
+                            </td>
+                            <td class="editable {{action.getTimeClass}}" data-id="{{ spotCue.id }}" data-model="Action" >{{action.fadeTime}}</td>
+                        </tr>
+                    {% endfor %}
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
 {% endblock content %}
 
 {% block extrascripts %}
 <script type="text/javascript">
     $(document).ready(function() {
     
+        //Create modal and direct to template url
         $(".createSpotCue").modalForm({
             formURL: "{% url 'createSpotCue' %}"
         });
         $(".createAction").modalForm({
             formURL: "{% url 'createAction' %}"
         });
-        $(".createOperator").modalForm({
-            formURL: "{% url 'createOperator' %}"
-        });
         $(".createFocus").modalForm({
             formURL: "{% url 'createFocus' %}"
         });
-    
+        //Editable table
+        $(document).on("click",".editable",function(){
+            var value=$(this).text();
+            var data_type=$(this).data("type");
+            var input_type="text";
+            if(data_type=="created_at")
+            {
+                input_type="datetime-local";
+            }
+            var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control'>";
+            $(this).html(input);
+            $(this).removeClass("editable")
+        });
+        $(document).on("blur",".input-data",function(){
+            var value=$(this).val();
+            var td=$(this).parent("td");
+            $(this).remove();
+            td.html(value);
+            td.addClass("editable");
+            var type=td.data("type");
+            var model = td.data("model")
+            console.log("MODEL: " + model);
+            sendToServer(td.data("id"),value,type, model);
+        });
+        $(document).on("keypress",".input-data",function(e){
+            var key=e.which;
+            if(key==13){
+                var value=$(this).val();
+                var td=$(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var type=td.data("type");
+                var model = td.data("model")
+                console.log("MODEL: " + model);
+                sendToServer(td.data("id"),value,type, model);
+            }
+        });
+        function sendToServer(id,value,type, model){
+            console.log(id);
+            console.log(value);
+            console.log(type);
+            if(model == "SpotCue"){
+                $.ajax({
+                url:"updateSpotCue/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            else if(model == "Action"){
+                $.ajax({
+                url:"updateAction/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+        }
     });
 </script>
 {% endblock extrascripts %}
