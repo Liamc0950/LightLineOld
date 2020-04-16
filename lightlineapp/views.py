@@ -128,6 +128,10 @@ def followspots(request):
         activeCues = SpotCue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
         projectCueLists = CueList.objects.filter(project = activeProject)
         activeCueList = CueList.objects.get(project = activeProject, active = True)
+        projectOperators = Operator.objects.filter(project = activeProject)
+        projectFocus = Focus.objects.filter(project = activeProject)
+        shots = Shot.objects.all()
+        projectColorFlags = ColorFlag.objects.filter(project = activeProject)
     #if no active project, set spotCueList to empty queryset
     except:
         activeProject = Project.objects.none()
@@ -140,7 +144,11 @@ def followspots(request):
         'activeProject': activeProject,
         'projects' : projects,
         'projectCueLists' : projectCueLists,
-        'activeCueList' : activeCueList
+        'activeCueList' : activeCueList,
+        'projectOperators' : projectOperators,
+        'projectFocus' : projectFocus,
+        'shots' : shots,
+        'projectColorFlags' : projectColorFlags,
     }
 
     return HttpResponse(template.render(context, request))
@@ -217,25 +225,36 @@ def updateAction(request):
     type=request.POST.get('type','')
     value=request.POST.get('value','')
     action=Action.objects.get(id=id)
-    print("ACTION TO BE UPDATED")
-    print(action)
+    choiceID = request.POST.get('choiceID', '')
     if type=="eosCueNumber":
-        action.eosCueNumber=value
+        #if the number specified is a cue in the cueList, then update it
+        #If not, add a new cue
+        activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
+        #get all cues where cueList's project is the active project and cueList is active
+        activeCues = SpotCue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
+        activeCueList = CueList.objects.get(project = activeProject, active = True)
+
+        try:
+            cue = activeCues.get(eosCueNumber = value)
+            action.cue = cue
+        except:
+            newCue = SpotCue.objects.create(cueList=activeCueList, eosCueNumber=value)
+            action.cue = newCue
 
     if type == "operator":
-        action.operator = value
+        action.operator = Operator.objects.get(id=value)
 
     if type == "focus":
-        action.focus = value
+        action.focus = Focus.objects.get(id=value)
 
     if type == "shotType":
-        action.shotType = value
+        action.shotType = Shot.objects.get(id=value)
 
     if type == "intensity":
         action.intensity = value
 
     if type == "colorFlag":
-        action.colorFlag = value
+        action.colorFlag = ColorFlag.objects.get(id=value)
 
     if type == "fadeTime":
         action.fadeTime = value

@@ -220,21 +220,77 @@ class Action(models.Model):
             elif lastAction.colorFlag != self.colorFlag and lastAction.intensity != 0:
                 return "hotChange"
         
-        #if the colorFlag of the last action, and the action before, are the same as in this action, return noChange
-        if lastAction.colorFlag == self.colorFlag and secondLastAction.colorFlag == self.colorFlag:
+        #if the colorFlag of the last action is the same as in this action, return noChange
+        if lastAction.colorFlag == self.colorFlag:
             return "noChange"
         #if the colorFlag of the last action is different, and the last action's intensity is not 0, return "hotChange"
         elif lastAction.colorFlag != self.colorFlag and lastAction.intensity != 0:
             return "hotChange"
+        #if the colorFlag of the last action is different, and the last action's intensity is 0, return "darkChange"
+        elif lastAction.colorFlag != self.colorFlag and lastAction.intensity == 0:
+            return "darkChange"
         #if the colorFlag of the action two back was different, and the intensity of the last action was 0, return "darkChange"
         elif secondLastAction.colorFlag != self.colorFlag and lastAction.intensity == 0:
             return "darkChange"
+        #if the colorFlag of the action two back was different, and the intensity of the last action was not 0, return "darkChange"
+        elif secondLastAction.colorFlag != self.colorFlag and lastAction.intensity != 0:
+            return "hotChange"
+
  
     #Returns the proper color coding class as a string
     #If the focus is different in this operator's last action, return hotChange, if a dark change occurred return "darkChange", 
     #and if a hot change occurred return "hotChange"  
     def getFocusClass(self):
-        return "noChange"
+        #get all the actions assigned to this operator
+        opActions = Action.objects.filter(operator=self.operator)
+        #sort actions in descending order - so more recent actions are first
+        sortedActions = opActions.order_by('-cue__eosCueNumber')
+        #remove any actions that take place after the current action
+        filteredActions = sortedActions.filter(cue__eosCueNumber__lte =  self.getCueNumber())
+        #remove the current action
+        filteredActions = filteredActions.exclude(id=self.id)
+        #get the last action before current
+        print("CURRENT ACTION")
+        print(self)
+        print("PAST ACTIONS")
+        print(filteredActions)
+        try:
+            lastAction = filteredActions[0]
+        except IndexError:
+            return "noChange"
+            
+        #get the action two before current
+        try:
+            secondLastAction = filteredActions[1]
+        except IndexError:
+            #if the colorFlag of the last action is the same as in this action, return noChange
+            if lastAction.focus == self.focus:
+                return "noChange"
+            #if the colorFlag of the last action is different than this action, and the intensity
+            # of the last action is 0, return darkChange
+            elif lastAction.focus != self.focus and lastAction.intensity == 0:
+                return "darkChange"
+
+            #if the colorFlag of the last action is different, and the last action's intensity is not 0, return "hotChange"
+            elif lastAction.focus != self.focus and lastAction.intensity != 0:
+                return "hotChange"
+        
+        #if the focus of the last action is the same as in this action, return noChange
+        if lastAction.focus == self.focus:
+            return "noChange"
+        #if the focus of the last action is different, and the last action's intensity is not 0, return "hotChange"
+        elif lastAction.focus != self.focus and lastAction.intensity != 0:
+            return "hotChange"
+        #if the focus of the last action is different, and the last action's intensity is 0, return "darkChange"
+        elif lastAction.focus != self.focus and lastAction.intensity == 0:
+            return "darkChange"
+        #if the focus of the action two back was different, and the intensity of the last action was 0, return "darkChange"
+        elif secondLastAction.focus != self.focus and lastAction.intensity == 0:
+            return "darkChange"
+        #if the focus of the action two back was different, and the intensity of the last action was not 0, return "darkChange"
+        elif secondLastAction.focus != self.focus and lastAction.intensity != 0:
+            return "hotChange"
+
  
     #Returns the proper color coding class as a string
     def getShotTypeClass(self):
