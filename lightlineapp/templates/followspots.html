@@ -34,18 +34,19 @@
             </div>
         </div>
     </nav>
-    <table class="table table-dark table-hover table-editable">
+    <table class="table table-dark table-hover">
         <thead>
         <tr>
-            <th scope="col" data-editable="true">Cue Number</th>
-            <th scope="col" data-editable="true">Label</th>
-            <th scope="col" data-editable="true">Page</th>
-            <th scope="col" data-editable="true">Operator</th>
-            <th scope="col" data-editable="true">Focus</th>
-            <th scope="col" data-editable="true">Shot</th>
-            <th scope="col" data-editable="true">Intensity</th>
-            <th scope="col" data-editable="true">Color</th>
-            <th scope="col" data-editable="true">Time</th>
+            <th scope="col">Cue Number</th>
+            <th scope="col">Label</th>
+            <th scope="col">Page</th>
+            <th scope="col">Operator</th>
+            <th scope="col">Focus</th>
+            <th scope="col">Shot</th>
+            <th scope="col">Intensity</th>
+            <th scope="col">Color</th>
+            <th scope="col">Time</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         {% if spotCueList %}
@@ -55,6 +56,15 @@
                     <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="eosCueNumber" scope="row" data-model="SpotCue">{{spotCue.eosCueNumber}}</td>
                     <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="cueLabel" data-model="SpotCue"> {{spotCue.cueLabel}}</td>
                     <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="pageNumber" data-model="SpotCue">{{spotCue.pageNumber}}</td>
+                    <td></td>
+                    <td></td>                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="deleteCue/{{spotCue.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
+                    </td>
                 </tr>
 
                     {% for action in spotCue.getActions %}
@@ -76,6 +86,9 @@
                                 {% endif %}
                             </td>
                             <td class="editable {{action.getTimeClass}}" data-id="{{ action.id }}" data-type="fadeTime" data-model="Action" >{{action.fadeTime}}</td>
+                            <td>
+                                <a href="deleteAction/{{action.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
+                            </td>
                         </tr>
                     {% endfor %}
             {% endfor %}

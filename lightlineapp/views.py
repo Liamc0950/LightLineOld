@@ -18,11 +18,20 @@ from django.views.generic.edit import CreateView
 from .models import *
 from .forms import *
 
+def spotCueDelete(request, cueID):
+    cue = SpotCue.objects.get(id=cueID)
+    cue.delete()
+    return HttpResponseRedirect('/lightlineapp/followspots')
+
+def actionDelete(request, actionID):
+    action = Action.objects.get(id=actionID)
+    action.delete()
+    return HttpResponseRedirect('/lightlineapp/followspots')
+
 
 class ProjectCreateView(CreateView):
     template_name = 'createProject.html'
     form_class = ProjectCreateForm
-
     success_message = 'Success: Project was created.'
     success_url = reverse_lazy('followspots')
 

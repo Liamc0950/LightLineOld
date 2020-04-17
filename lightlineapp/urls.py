@@ -30,4 +30,8 @@ urlpatterns = [
     path('switchActiveProject/', views.switchActiveProject, name='switchActiveProject'),
     #cueList Selection
     path('switchActiveCueList/', views.switchActiveCueList, name='switchActiveCueLis'),
+    #followspot delete buttons
+    path('followspots/deleteCue/<int:cueID>', views.spotCueDelete, name='deleteCue'),
+    path('followspots/deleteAction/<int:actionID>', views.actionDelete, name='deleteAction'),
+
 ]
