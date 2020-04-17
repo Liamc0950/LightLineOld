@@ -141,7 +141,7 @@ class Shot(models.Model):
         return self.shotDescr
 
 
-class SpotCue(models.Model):
+class Cue(models.Model):
     id = models.AutoField(primary_key=True)
     lastUpdate = models.DateTimeField(auto_now=True)
     cueLabel = models.CharField(max_length = 100)
@@ -165,7 +165,7 @@ class Action(models.Model):
     colorFlag = models.ForeignKey(ColorFlag, on_delete=models.CASCADE)
     focus = models.ForeignKey(Focus, on_delete=models.CASCADE)
     shotType = models.ForeignKey(Shot, on_delete=models.CASCADE)
-    cue = models.ForeignKey(SpotCue, default=1, on_delete=models.CASCADE)
+    cue = models.ForeignKey(Cue, default=1, on_delete=models.CASCADE)
     intensity = models.IntegerField(default=100)
 
     def __str__(self):

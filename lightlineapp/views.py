@@ -18,8 +18,8 @@ from django.views.generic.edit import CreateView
 from .models import *
 from .forms import *
 
-def spotCueDelete(request, cueID):
-    cue = SpotCue.objects.get(id=cueID)
+def CueDelete(request, cueID):
+    cue = Cue.objects.get(id=cueID)
     cue.delete()
     return HttpResponseRedirect('/lightlineapp/followspots')
 
@@ -134,22 +134,22 @@ def followspots(request):
     try:
         activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
         #get all cues where cueList's project is the active project and cueList is active
-        activeCues = SpotCue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
+        activeCues = Cue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
         projectCueLists = CueList.objects.filter(project = activeProject)
         activeCueList = CueList.objects.get(project = activeProject, active = True)
         projectOperators = Operator.objects.filter(project = activeProject)
         projectFocus = Focus.objects.filter(project = activeProject)
         shots = Shot.objects.all()
         projectColorFlags = ColorFlag.objects.filter(project = activeProject)
-    #if no active project, set spotCueList to empty queryset
+    #if no active project, set cueList to empty queryset
     except:
         activeProject = Project.objects.none()
-        spotCueList = SpotCue.objects.none()
+        cueList = Cue.objects.none()
 
     projects = Project.objects.filter(lightingDesigner=request.user.profile)
     template = loader.get_template('followspots.html')
     context = {
-        'spotCueList': activeCues,
+        'cueList': activeCues,
         'activeProject': activeProject,
         'projects' : projects,
         'projectCueLists' : projectCueLists,
@@ -160,17 +160,35 @@ def followspots(request):
         'projectColorFlags' : projectColorFlags,
     }
 
+    csv = open('lightlineapp/roscolux.csv', 'r')  
+    for line in csv:
+        print(line)
+        line =  line.split(',')
+        print("Hello" + str(len(line[0])) + "there")
+        if len(line[0]) == 1:
+            pass
+        else: 
+            color = Color()  
+            color.colorName = line[1]
+            color.colorCode = line[0]  
+            color.colorHex = line[2]
+            color.save()  
+
+    csv.close() 
+
+
+
     return HttpResponse(template.render(context, request))
 
 #Followspot Modal Views
-class SpotCueCreateView(BSModalCreateView):
-    template_name = 'lightlineapp/createSpotCue.html'
-    form_class = SpotCueForm
+class CueCreateView(BSModalCreateView):
+    template_name = 'lightlineapp/createCue.html'
+    form_class = CueForm
     success_message = 'Success: Spot Cue was created.'
     success_url = reverse_lazy('followspots')
 
     def get_initial(self, *args, **kwargs):
-        initial = super(SpotCueCreateView, self).get_initial(**kwargs)
+        initial = super(CueCreateView, self).get_initial(**kwargs)
         activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
         activeCueList = CueList.objects.get(project = activeProject, active = True)
         initial['project'] = activeProject
@@ -209,13 +227,13 @@ class FocusCreateView(BSModalCreateView):
         return initial
 
 
-#Followspot update SpotCue 
+#Followspot update Cue 
 @csrf_exempt
-def updateSpotCue(request):
+def updateCue(request):
     id=request.POST.get('id','')
     type=request.POST.get('type','')
     value=request.POST.get('value','')
-    cue=SpotCue.objects.get(id=id)
+    cue=Cue.objects.get(id=id)
     if type=="eosCueNumber":
         cue.eosCueNumber=value
 
@@ -225,7 +243,7 @@ def updateSpotCue(request):
     if type == "pageNumber":
         cue.pageNumber = value
     cue.save()
-    return JsonResponse({"success":"Updated SpotCue"})
+    return JsonResponse({"success":"Updated Cue"})
 
 #Followspot update Action 
 @csrf_exempt
@@ -240,14 +258,14 @@ def updateAction(request):
         #If not, add a new cue
         activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
         #get all cues where cueList's project is the active project and cueList is active
-        activeCues = SpotCue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
+        activeCues = Cue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
         activeCueList = CueList.objects.get(project = activeProject, active = True)
 
         try:
             cue = activeCues.get(eosCueNumber = value)
             action.cue = cue
         except:
-            newCue = SpotCue.objects.create(cueList=activeCueList, eosCueNumber=value)
+            newCue = Cue.objects.create(cueList=activeCueList, eosCueNumber=value)
             action.cue = newCue
 
     if type == "operator":

@@ -18,11 +18,11 @@ urlpatterns = [
     path('database/', views.database, name='database'),
     path('notes/', views.notes, name='notes'),
     #followspot app modals
-    path('followspots/createSpotCue/', views.SpotCueCreateView.as_view(), name='createSpotCue'),
+    path('followspots/createCue/', views.CueCreateView.as_view(), name='createCue'),
     path('followspots/createAction/', views.ActionCreateView.as_view(), name='createAction'),
     path('followspots/createFocus/', views.FocusCreateView.as_view(), name='createFocus'),
     #followspot app live update
-    path('followspots/updateSpotCue/', views.updateSpotCue, name='updateSpotCue'),
+    path('followspots/updateCue/', views.updateCue, name='updateCue'),
     path('followspots/updateAction/', views.updateAction, name='updateAction'),
     #project creation
     path('createProject/', views.ProjectCreateView.as_view(), name='createProject'),
@@ -31,7 +31,7 @@ urlpatterns = [
     #cueList Selection
     path('switchActiveCueList/', views.switchActiveCueList, name='switchActiveCueLis'),
     #followspot delete buttons
-    path('followspots/deleteCue/<int:cueID>', views.spotCueDelete, name='deleteCue'),
+    path('followspots/deleteCue/<int:cueID>', views.CueDelete, name='deleteCue'),
     path('followspots/deleteAction/<int:actionID>', views.actionDelete, name='deleteAction'),
 
 ]

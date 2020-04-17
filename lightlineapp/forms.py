@@ -24,9 +24,9 @@ class ProjectCreateForm(forms.ModelForm):
 
 
 
-class SpotCueForm(BSModalForm):
+class CueForm(BSModalForm):
     class Meta:
-        model = SpotCue
+        model = Cue
         exclude = ['lastUpdate']
         widgets = {'cueList': forms.HiddenInput()}
 
@@ -42,7 +42,7 @@ class ActionForm(BSModalForm):
         self.fields['operator'].queryset = Operator.objects.filter(project=project)
         self.fields['colorFlag'].queryset = ColorFlag.objects.filter(project=project)
         self.fields['focus'].queryset = Focus.objects.filter(project=project)
-        self.fields['cue'].queryset = SpotCue.objects.filter(cueList=activeCueList)
+        self.fields['cue'].queryset = Cue.objects.filter(cueList=activeCueList)
 
 
 class FocusForm(BSModalForm):

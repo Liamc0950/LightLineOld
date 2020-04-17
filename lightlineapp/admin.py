@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from .models import *
 
-admin.site.register(SpotCue)
+admin.site.register(Cue)
 admin.site.register(Action)
 admin.site.register(Color)
 admin.site.register(Followspot)

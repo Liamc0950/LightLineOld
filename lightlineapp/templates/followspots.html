@@ -7,7 +7,7 @@
         <a class="navbar-brand" href="#">Followspot Tracking</a>
         <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button class="createSpotCue btn btn-secondary" type="button" name="button">Add Spot Cue</button>
+                <button class="createCue btn btn-secondary" type="button" name="button">Add Spot Cue</button>
                 <button class="createAction btn btn-secondary"type="button" name="button">Add Followspot Action</button>
                 <button class="createFocus btn btn-secondary"type="button" name="button">Add Focus</button>
                 <button class="btn btn-secondary"type="button" name="button">Print Paperwork</button>
@@ -49,13 +49,13 @@
             <th scope="col"></th>
         </tr>
         </thead>
-        {% if spotCueList %}
+        {% if cueList %}
         <tbody>
-            {% for spotCue in spotCueList %}
+            {% for cue in cueList %}
                 <tr class="cueCell">
-                    <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="eosCueNumber" scope="row" data-model="SpotCue">{{spotCue.eosCueNumber}}</td>
-                    <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="cueLabel" data-model="SpotCue"> {{spotCue.cueLabel}}</td>
-                    <td class="editable" data-id="{{ spotCue.id }}" data-input="text" data-type="pageNumber" data-model="SpotCue">{{spotCue.pageNumber}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="eosCueNumber" scope="row" data-model="cue>{{cue.eosCueNumber}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="cueLabel" data-model="cue"> {{cue.cueLabel}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="pageNumber" data-model="cue">{{cue.pageNumber}}</td>
                     <td></td>
                     <td></td>                    
                     <td></td>
@@ -63,13 +63,13 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <a href="deleteCue/{{spotCue.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
+                        <a href="deleteCue/{{cue.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
                     </td>
                 </tr>
 
-                    {% for action in spotCue.getActions %}
+                    {% for action in cue.getActions %}
                         <tr>
-                            <td class="editable" data-id="{{ action.id }}" data-type="eosCueNumber" scope="row" data-model="Action"><b>{{spotCue.eosCueNumber}}</b></td>
+                            <td class="editable" data-id="{{ action.id }}" data-type="eosCueNumber" scope="row" data-model="Action"><b>{{cue.eosCueNumber}}</b></td>
                             <td></td>
                             <td></td>
                             <td class="editable" data-id="{{ action.id }}" data-input="choice" data-type="operator" data-model="Action">{{action.operator}}</td>
@@ -102,8 +102,8 @@
     $(document).ready(function() {
     
         //Create modal and direct to template url
-        $(".createSpotCue").modalForm({
-            formURL: "{% url 'createSpotCue' %}"
+        $(".createCue").modalForm({
+            formURL: "{% url 'createCue' %}"
         });
         $(".createAction").modalForm({
             formURL: "{% url 'createAction' %}"
@@ -189,9 +189,9 @@
             console.log(id);
             console.log(value);
             console.log(type);
-            if(model == "SpotCue"){
+            if(model == "cue"){
                 $.ajax({
-                url:"updateSpotCue/",
+                url:"updateCue/",
                 type:"POST",
                 data:{id:id,type:type,value:value},
                 })
