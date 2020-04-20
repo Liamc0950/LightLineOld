@@ -98,12 +98,14 @@ class ColorFlag(models.Model):
     def __str__(self):
         return str(self.color1) + " " + str(self.color2)
 
+
 class Followspot(models.Model):
     id = models.AutoField(primary_key=True)
     lastUpdate = models.DateTimeField(auto_now=True)
     spotType = models.CharField(max_length = 32)
-    wattage = models.IntegerField(default=255)
+    wattage = models.IntegerField(default=3000)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
+    available = models.IntegerField(default=1)
 
     def __str__(self):
         return self.spotType

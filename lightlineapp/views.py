@@ -33,7 +33,7 @@ class ProjectCreateView(CreateView):
     template_name = 'createProject.html'
     form_class = ProjectCreateForm
     success_message = 'Success: Project was created.'
-    success_url = reverse_lazy('followspots')
+    success_url = reverse_lazy('projectSettings')
 
     def get_initial(self, *args, **kwargs):
         #deactivate other projects
@@ -160,24 +160,6 @@ def followspots(request):
         'projectColorFlags' : projectColorFlags,
     }
 
-    csv = open('lightlineapp/roscolux.csv', 'r')  
-    for line in csv:
-        print(line)
-        line =  line.split(',')
-        print("Hello" + str(len(line[0])) + "there")
-        if len(line[0]) == 1:
-            pass
-        else: 
-            color = Color()  
-            color.colorName = line[1]
-            color.colorCode = line[0]  
-            color.colorHex = line[2]
-            color.save()  
-
-    csv.close() 
-
-
-
     return HttpResponse(template.render(context, request))
 
 #Followspot Modal Views
@@ -222,10 +204,101 @@ class FocusCreateView(BSModalCreateView):
     def get_initial(self, *args, **kwargs):
         initial = super(FocusCreateView, self).get_initial(**kwargs)
         initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
-        print("PROJECT FOR FOCUS ADD")
-        print( Project.objects.get(lightingDesigner=self.request.user.profile, active=True))
         return initial
 
+class OperatorCreateView(BSModalCreateView):
+    template_name = 'lightlineapp/createOperator.html'
+    form_class = OperatorForm
+    success_message = 'Success: Operator was added.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(OperatorCreateView, self).get_initial(**kwargs)
+        initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        return initial
+
+class FollowspotCreateView(BSModalCreateView):
+    template_name = 'lightlineapp/createFollowspot.html'
+    form_class = FollowspotForm
+    success_message = 'Success: Followspot was added.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(FollowspotCreateView, self).get_initial(**kwargs)
+        initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        return initial
+
+class ColorFlagCreateView(BSModalCreateView):
+    template_name = 'lightlineapp/createColorFlag.html'
+    form_class = ColorFlagForm
+    success_message = 'Success: Color Flag was added.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(ColorFlagCreateView, self).get_initial(**kwargs)
+        initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        return initial
+
+
+#Project Settings - Followspot update
+@csrf_exempt
+def updateFollowspot(request):
+    id=request.POST.get('id','')
+    type=request.POST.get('type','')
+    value=request.POST.get('value','')
+    followspot=Followspot.objects.get(id=id)
+    if type=="spotType":
+        followspot.spotType=value
+        print("TYPE UPDATED")
+
+    if type == "wattage":
+        followspot.wattage = value
+
+    if type == "available":
+        followspot.available = value
+    followspot.save()
+    return JsonResponse({"success":"Updated followspot"})
+
+#Project Settings - Operator update
+@csrf_exempt
+def updateOperator(request):
+    id=request.POST.get('id','')
+    type=request.POST.get('type','')
+    value=request.POST.get('value','')
+    op=Operator.objects.get(id=id)
+    if type=="operatorNumber":
+        op.operatorNumber=value
+
+    if type == "operatorName":
+        op.operatorName = value
+
+    if type == "followspotType":
+        op.followspotType = value
+
+    if type == "notes":
+        op.notes = value
+
+    op.save()
+    return JsonResponse({"success":"Updated Operator"})
+
+#Project Settings - ColorFlag update
+@csrf_exempt
+def updateColorFlag(request):
+    id=request.POST.get('id','')
+    type=request.POST.get('type','')
+    value=request.POST.get('value','')
+    flag=ColorFlag.objects.get(id=id)
+    if type=="index":
+        flag.index=value
+
+    if type == "color1":
+        flag.color1 = value
+
+    if type == "color2":
+        flag.color2 = value
+
+    flag.save()
+    return JsonResponse({"success":"Colo Flag updated"})
 
 #Followspot update Cue 
 @csrf_exempt
@@ -287,3 +360,45 @@ def updateAction(request):
         action.fadeTime = value
     action.save()
     return JsonResponse({"success":"Updated Action"})
+
+
+@login_required
+#Project settings view
+def projectSettings(request):
+    #try to get the active project, then get all the cues in cueList linked to active project
+    try:
+        activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
+        #get all cues where cueList's project is the active project and cueList is active
+        activeCues = Cue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
+        projectCueLists = CueList.objects.filter(project = activeProject)
+        activeCueList = CueList.objects.get(project = activeProject, active = True)
+        projectOperators = Operator.objects.filter(project = activeProject)
+        projectFocus = Focus.objects.filter(project = activeProject)
+        opList = Operator.objects.filter(project = activeProject)
+        spotList = Followspot.objects.filter(project = activeProject)
+        colorList = ColorFlag.objects.filter(project = activeProject)
+        shots = Shot.objects.all()
+        projectColorFlags = ColorFlag.objects.filter(project = activeProject)
+    #if no active project, set cueList to empty queryset
+    except:
+        activeProject = Project.objects.none()
+        cueList = Cue.objects.none()
+
+    projects = Project.objects.filter(lightingDesigner=request.user.profile)
+    template = loader.get_template('projectSettings.html')
+    context = {
+        'cueList': activeCues,
+        'activeProject': activeProject,
+        'projects' : projects,
+        'projectCueLists' : projectCueLists,
+        'activeCueList' : activeCueList,
+        'projectOperators' : projectOperators,
+        'projectFocus' : projectFocus,
+        'shots' : shots,
+        'projectColorFlags' : projectColorFlags,
+        'opList' : opList,
+        'spotList' : spotList,
+        'colorList' : colorList,
+    }
+
+    return HttpResponse(template.render(context, request))

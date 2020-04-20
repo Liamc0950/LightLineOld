@@ -51,7 +51,18 @@ class FocusForm(BSModalForm):
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-        
+class OperatorForm(BSModalForm):
+    class Meta:
+        model = Operator
+        exclude = ['lastUpdate']
+        widgets = {'project': forms.HiddenInput()}
+
+class FollowspotForm(BSModalForm):
+    class Meta:
+        model = Followspot
+        exclude = ['lastUpdate']
+        widgets = {'project': forms.HiddenInput()}
+
 class ColorFlagForm(BSModalForm):
     class Meta:
         model = ColorFlag
