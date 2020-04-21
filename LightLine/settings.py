@@ -120,6 +120,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
