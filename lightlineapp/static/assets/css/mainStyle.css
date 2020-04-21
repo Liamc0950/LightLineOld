@@ -10,9 +10,8 @@ body {
     background-color: #212529;
 }
 .footer {
-    margin: auto 0 0;
-    height: 56px;
-    background-color: darkgrey;
+    height: 10%;
+    background-color: #212529;
 }
 
 .cueCell {
