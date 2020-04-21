@@ -35,6 +35,7 @@ urlpatterns = [
     #project settings live update
     path('projectSettings/updateFollowspot/', views.updateFollowspot, name='updateFollowspot'),
     path('projectSettings/updateOperator/', views.updateOperator, name='updateOperator'),
+    path('projectSettings/updateColorFlag/', views.updateColorFlag, name='updateColorFlag'),
     #project selection
     path('switchActiveProject/', views.switchActiveProject, name='switchActiveProject'),
     #cueList Selection

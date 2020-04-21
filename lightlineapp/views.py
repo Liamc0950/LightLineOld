@@ -37,15 +37,19 @@ class ProjectCreateView(CreateView):
 
     def get_initial(self, *args, **kwargs):
         #deactivate other projects
-        userProjects = Project.objects.filter(lightingDesigner= self.request.user.profile, active=True)
-        for project in userProjects:
-            project.active = False
-            project.save()
         initial = super(ProjectCreateView, self).get_initial(**kwargs)
         initial['lightingDesigner'] = self.request.user.profile
         initial['active'] = True
         return initial
 
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # Sets all projects to active=False 
+        userProjects = Project.objects.filter(lightingDesigner= self.request.user.profile, active=True)
+        for project in userProjects:
+            project.active = False
+            project.save()
+        return super().form_valid(form)
 
 
 def switchActiveProject(request):
@@ -273,7 +277,7 @@ def updateOperator(request):
         op.operatorName = value
 
     if type == "followspotType":
-        op.followspotType = value
+        op.followspotType = Followspot.objects.get(id=value)
 
     if type == "notes":
         op.notes = value
@@ -292,10 +296,10 @@ def updateColorFlag(request):
         flag.index=value
 
     if type == "color1":
-        flag.color1 = value
+        flag.color1 = Color.objects.get(id=value)
 
     if type == "color2":
-        flag.color2 = value
+        flag.color2 = Color.objects.get(id=value)
 
     flag.save()
     return JsonResponse({"success":"Colo Flag updated"})
@@ -376,7 +380,7 @@ def projectSettings(request):
         projectFocus = Focus.objects.filter(project = activeProject)
         opList = Operator.objects.filter(project = activeProject)
         spotList = Followspot.objects.filter(project = activeProject)
-        colorList = ColorFlag.objects.filter(project = activeProject)
+        colorList = ColorFlag.objects.filter(project = activeProject).order_by('index')
         shots = Shot.objects.all()
         projectColorFlags = ColorFlag.objects.filter(project = activeProject)
     #if no active project, set cueList to empty queryset
@@ -399,6 +403,7 @@ def projectSettings(request):
         'opList' : opList,
         'spotList' : spotList,
         'colorList' : colorList,
+        'colors' : Color.objects.all(),
     }
 
     return HttpResponse(template.render(context, request))

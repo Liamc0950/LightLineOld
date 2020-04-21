@@ -82,13 +82,13 @@
                 <tbody>
                     {% for color in colorList %}
                         <tr>
-                            <td class="editable" data-id="{{ operator.id }}" data-input="text" data-type="operatorNumber" scope="row" data-model="operator">{{color.index}}
+                            <td class="editable" data-id="{{ color.id }}" data-input="text" data-type="index" scope="row" data-model="colorFlag">{{color.index}}
                             </td>
-                            <td class="editable" data-id="{{ operator.id }}" data-input="text" data-type="operatorName" data-model="operator"> {{color.color1}}
+                            <td class="editable" data-id="{{ color.id }}" data-input="choice" data-type="color1" data-model="colorFlag"> {{color.color1}}
                                 <span class="dot" style= "height: 25px; width: 25px; background-color:{{color.color1.colorHex}}; border-radius: 50%;display: inline-block;">
                                 </span>
                             </td>
-                            <td class="editable" data-id="{{ operator.id }}" data-input="choice" data-type="followspotType" data-model="operator">{{color.color2}}
+                            <td class="editable" data-id="{{ color.id }}" data-input="choice" data-type="color2" data-model="colorFlag">{{color.color2}}
                                 <span class="dot" style= "height: 25px; width: 25px; background-color:{{color.color2.colorHex}}; border-radius: 50%;display: inline-block;">
                                 </span>
                             </td>
@@ -98,9 +98,6 @@
             </table>
 
 {% endblock content %}
-
-
-
 
 
 {% block extrascripts %}
@@ -134,6 +131,19 @@
                     $(this).html(input);
                     $(this).removeClass("editable")
                 }
+                if(data_type=="color1")
+                {
+                    var input="<select class='input-data form-control'> {% for color in colors %} <option label='{{color}}' value='{{color.id}}'> {{color}} </option> {% endfor %} </select>";
+                    $(this).html(input);
+                    $(this).removeClass("editable")
+                }
+                if(data_type=="color2")
+                {
+                    var input="<select class='input-data form-control'> {% for color in colors %} <option label='{{color}}' value='{{color.id}}'> {{color}} </option> {% endfor %} </select>";
+                    $(this).html(input);
+                    $(this).removeClass("editable")
+                }
+
             }
             //Editable table - Text/Integer input
             //This will be used for all Cue fields, and for Intensity and Fade Time
@@ -203,6 +213,20 @@
                     console.log("Error Occured");
                 });
             }
+            else if(model == "colorFlag"){
+                $.ajax({
+                url:"updateColorFlag/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+
 
 
             //Reload page elements

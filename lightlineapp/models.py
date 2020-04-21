@@ -164,7 +164,7 @@ class Action(models.Model):
     lastUpdate = models.DateTimeField(auto_now=True)
     fadeTime = models.IntegerField(default=3)
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    colorFlag = models.ForeignKey(ColorFlag, on_delete=models.CASCADE)
+    colorFlag = models.ForeignKey(ColorFlag, on_delete=models.CASCADE, default=1)
     focus = models.ForeignKey(Focus, on_delete=models.CASCADE)
     shotType = models.ForeignKey(Shot, on_delete=models.CASCADE)
     cue = models.ForeignKey(Cue, default=1, on_delete=models.CASCADE)
