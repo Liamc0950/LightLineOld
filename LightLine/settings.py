@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import django_heroku
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -121,23 +123,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-#SECURE_SSL_REDIRECT = True
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-CORS_REPLACE_HTTPS_REFERER      = False
-HOST_SCHEME                     = "http://"
-SECURE_PROXY_SSL_HEADER         = None
-SECURE_SSL_REDIRECT             = False
-SESSION_COOKIE_SECURE           = False
-CSRF_COOKIE_SECURE              = False
-SECURE_HSTS_SECONDS             = None
-SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
-SECURE_FRAME_DENY               = False
 
+#CORS_REPLACE_HTTPS_REFERER      = False
+#HOST_SCHEME                     = "http://"
+#SECURE_PROXY_SSL_HEADER         = None
+#SECURE_SSL_REDIRECT             = False
+#SESSION_COOKIE_SECURE           = False
+#CSRF_COOKIE_SECURE              = False
+#SECURE_HSTS_SECONDS             = None
+#SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
+#SECURE_FRAME_DENY               = False
+
+django_heroku.settings(locals())
 
 
 LOGIN_REDIRECT_URL = 'followspots'
