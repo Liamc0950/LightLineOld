@@ -1,9 +1,9 @@
 from .base import *
 
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-SECRET_KEY = "sdjashdhqwoeuihqwiorjsakjfoisfh308957dshfhasd"
+SECRET_KEY = '+^s!s50=3($xx(8+p&a12kff$*fz+wn!udi2)q)=q3p_#%0nmz'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
