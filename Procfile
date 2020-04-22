@@ -1,1 +1,1 @@
-web: gunicorn LightLine.wsgi
+web: gunicorn LightLine.wsgi --log-file -
