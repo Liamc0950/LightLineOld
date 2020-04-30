@@ -43,8 +43,8 @@ header.masthead h1 {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
+    padding-top: 15rem;
+    padding-bottom: 20rem;
   }
   header.masthead h1 {
     font-size: 3rem;
@@ -121,7 +121,5 @@ header.masthead h1 {
 }
 
 footer.footer {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
   background-color: #212529;
 }

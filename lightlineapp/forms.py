@@ -55,7 +55,12 @@ class OperatorForm(BSModalForm):
     class Meta:
         model = Operator
         exclude = ['lastUpdate']
-        widgets = {'project': forms.HiddenInput()}
+        widgets = {'project': forms.HiddenInput(), 'shareNode': forms.HiddenInput()}
+    def __init__(self,project, *args,**kwargs):
+        super (OperatorForm,self ).__init__(*args,**kwargs) # populates the post
+        #limit to shareNodes of this project and of role 6 (operator)
+        self.fields['shareNode'].queryset = ShareNode.objects.filter(project=project, role=6)
+
 
 class FollowspotForm(BSModalForm):
     class Meta:
@@ -66,6 +71,12 @@ class FollowspotForm(BSModalForm):
 class ColorFlagForm(BSModalForm):
     class Meta:
         model = ColorFlag
+        exclude = ['lastUpdate']
+        widgets = {'project': forms.HiddenInput()}
+
+class ShareNodeForm(BSModalForm):
+    class Meta:
+        model = ShareNode
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 

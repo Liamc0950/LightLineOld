@@ -221,6 +221,12 @@ class OperatorCreateView(BSModalCreateView):
         initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
         return initial
 
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super(OperatorCreateView, self).get_form_kwargs(*args, **kwargs)
+        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        form_kwargs['project'] = activeProject
+        return form_kwargs
+
 class FollowspotCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createFollowspot.html'
     form_class = FollowspotForm
@@ -243,6 +249,29 @@ class ColorFlagCreateView(BSModalCreateView):
         initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
         return initial
 
+class ShareNodeCreateView(BSModalCreateView):
+    template_name = 'lightlineapp/createShareNode.html'
+    form_class = ShareNodeForm
+    success_message = 'Success: ShareNode was added.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(ShareNodeCreateView, self).get_initial(**kwargs)
+        initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        return initial
+
+#Project Settings - ShareNode update
+@csrf_exempt
+def updateShareNode(request):
+    id=request.POST.get('id','')
+    type=request.POST.get('type','')
+    value=request.POST.get('value','')
+    node=ShareNode.objects.get(id=id)
+    if type=="role":
+        node.role=value
+        print("ROLE UPDATED")
+    node.save()
+    return JsonResponse({"success":"Updated share node"})
 
 #Project Settings - Followspot update
 @csrf_exempt
@@ -322,6 +351,8 @@ def updateCue(request):
     cue.save()
     return JsonResponse({"success":"Updated Cue"})
 
+
+
 #Followspot update Action 
 @csrf_exempt
 def updateAction(request):
@@ -383,6 +414,7 @@ def projectSettings(request):
         colorList = ColorFlag.objects.filter(project = activeProject).order_by('index')
         shots = Shot.objects.all()
         projectColorFlags = ColorFlag.objects.filter(project = activeProject)
+        shareNodes = ShareNode.objects.filter(project = activeProject)
     #if no active project, set cueList to empty queryset
     except:
         activeProject = Project.objects.none()
@@ -404,6 +436,7 @@ def projectSettings(request):
         'spotList' : spotList,
         'colorList' : colorList,
         'colors' : Color.objects.all(),
+        'shareNodes' : shareNodes,
     }
 
     return HttpResponse(template.render(context, request))

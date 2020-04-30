@@ -25,6 +25,7 @@ urlpatterns = [
     path('projectSettings/createOperator/', views.OperatorCreateView.as_view(), name='createOperator'),
     path('projectSettings/createFollowspot/', views.FollowspotCreateView.as_view(), name='createFollowspot'),
     path('projectSettings/createColorFlag/', views.ColorFlagCreateView.as_view(), name='createColorFlag'),
+    path('projectSettings/createShareNode/', views.ShareNodeCreateView.as_view(), name='createShareNode'),
     #followspot app live update
     path('followspots/updateCue/', views.updateCue, name='updateCue'),
     path('followspots/updateAction/', views.updateAction, name='updateAction'),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('projectSettings/updateFollowspot/', views.updateFollowspot, name='updateFollowspot'),
     path('projectSettings/updateOperator/', views.updateOperator, name='updateOperator'),
     path('projectSettings/updateColorFlag/', views.updateColorFlag, name='updateColorFlag'),
+    path('projectSettings/updateShareNode/', views.updateShareNode, name='updateShareNode'),
     #project selection
     path('switchActiveProject/', views.switchActiveProject, name='switchActiveProject'),
     #cueList Selection

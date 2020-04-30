@@ -14,6 +14,46 @@ class Profile(models.Model):
     # one -- related Profile model.
 
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    image = models.URLField(blank=True)
+
+    # A timestamp representing when this object was created.
+    created = models.DateTimeField(auto_now_add=True)
+
+    # A timestamp representing when this object was last updated.
+    lastUpdate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
+    
+    def getName(self):
+        return self.user.first_name + " " + self.user.last_name
+
+    @receiver(post_save, sender=User)
+    def create_or_update_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+        instance.profile.save()
+
+    def getCurrentRole(self):
+        activeProject = Project.objects.get(lightingDesigner=self, active=True)
+        nodes = ShareNode.objects.filter(project = activeProject)
+        return nodes.get(profile=self).getRole()
+
+class Project(models.Model):
+    id = models.AutoField(primary_key=True)
+    lastUpdate = models.DateTimeField(auto_now=True)
+    showName = models.CharField(max_length = 64)
+    showNameShort = models.CharField(max_length = 32, default="")
+
+    lightingDesigner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.showName
+
+class ShareNode(models.Model):
     #Setup options for user roles. These will help to determine permissions
     LD = 1
     ASSISTANT = 2
@@ -32,38 +72,15 @@ class Profile(models.Model):
         (STAGE_MANAGER, 'Stage Manager'),
     )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1, unique=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
-
-    image = models.URLField(blank=True)
-
-    # A timestamp representing when this object was created.
-    created = models.DateTimeField(auto_now_add=True)
-
-    # A timestamp representing when this object was last updated.
-    lastUpdate = models.DateTimeField(auto_now=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.username
+        return self.profile
 
-    @receiver(post_save, sender=User)
-    def create_or_update_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-        instance.profile.save()
-
-class Project(models.Model):
-    id = models.AutoField(primary_key=True)
-    lastUpdate = models.DateTimeField(auto_now=True)
-    showName = models.CharField(max_length = 64)
-    showNameShort = models.CharField(max_length = 32, default="")
-
-    lightingDesigner = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    active = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.showName
+    def getRole(self):
+        return self.ROLE_CHOICES[self.role - 1][1]
 
 
 class CueList(models.Model):
@@ -119,6 +136,8 @@ class Operator(models.Model):
     followspotType = models.ForeignKey(Followspot, on_delete=models.CASCADE)
     notes = models.CharField(max_length=512)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
+    #Bridge between host user and shared user
+    shareNode = models.ForeignKey(ShareNode, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.operatorName

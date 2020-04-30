@@ -59,6 +59,7 @@
                             <td class="editable" data-id="{{ operator.id }}" data-input="text" data-type="operatorName" data-model="operator"> {{operator.operatorName}}</td>
                             <td class="editable" data-id="{{ operator.id }}" data-input="choice" data-type="followspotType" data-model="operator">{{operator.followspotType}}</td>
                             <td class="editable" data-id="{{ operator.id }}" data-input="text" data-type="notes" data-model="operator">{{operator.notes}} </td>
+                            <td class="editable" data-id="{{ operator.id }}" data-input="text" data-type="user" data-model="operator">{{operator.shareNode.profile}} </td>
                     {% endfor %}
                 </tbody>
                 {% endif %}
@@ -96,6 +97,41 @@
                 </tbody>
                 {% endif %}
             </table>
+        <!--Collaborators-->
+        <div class="row">
+            <div class="col"><h2 class="text-light">Shared Users</h2></div>
+        </div>
+            <!--Assistants-->
+            <nav class="navbar navbar-dark bg-dark sticky-top">
+                <a class="navbar-brand" href="#">Shared Users</a>
+                <div class="btn-toolbar" role="toolbar" aria-label="Color Flags Toolbar">
+                    <button class="createShareNode btn btn-secondary" type="button" name="button">Add Collaborator</button>
+                </div>
+            </nav>
+            <table class="table table-dark table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Role</th>
+                </tr>
+                </thead>
+                {% if shareNodes %}
+                <tbody>
+                    {% for node in shareNodes %}
+                        <tr>
+                            <td>
+                                {{node.profile.getName}}
+                            </td>
+                            <td> 
+                                {{node.profile}}
+                            </td>
+                            <td class="editable" data-id="{{ color.id }}" data-input="choice" data-type="role" data-model="shareNode">{{node.getRole}}
+                            </td>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
 
 {% endblock content %}
 
@@ -115,6 +151,9 @@
 
         $(".createColorFlag").modalForm({
             formURL: "{% url 'createColorFlag' %}"
+        });
+        $(".createShareNode").modalForm({
+            formURL: "{% url 'createShareNode' %}"
         });
 
         $(document).on("click",".editable",function(){
@@ -143,7 +182,12 @@
                     $(this).html(input);
                     $(this).removeClass("editable")
                 }
-
+                if(data_type=="role")
+                {
+                    var input="<select class='input-data form-control'> {% for color in colors %} <option label='{{node.getRole}}' value='{{node.id}}'> {{node}} </option> {% endfor %} </select>";
+                    $(this).html(input);
+                    $(this).removeClass("editable")
+                }
             }
             //Editable table - Text/Integer input
             //This will be used for all Cue fields, and for Intensity and Fade Time
@@ -216,6 +260,19 @@
             else if(model == "colorFlag"){
                 $.ajax({
                 url:"updateColorFlag/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            else if(model == "shareNode"){
+                $.ajax({
+                url:"updateShareNode/",
                 type:"POST",
                 data:{id:id,type:type,value:value},
                 })
