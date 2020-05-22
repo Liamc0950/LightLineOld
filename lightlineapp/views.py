@@ -431,7 +431,7 @@ def projectSettings(request):
         colorList = ColorFlag.objects.filter(project = activeProject).order_by('index')
         shots = Shot.objects.all()
         projectColorFlags = ColorFlag.objects.filter(project = activeProject)
-        shareNodes = ShareNode.objects.filter(project = activeProject)
+        #shareNodes = ShareNode.objects.filter(project = activeProject)
     #if no active project, set cueList to empty queryset
     except:
         activeProject = Project.objects.none()
@@ -453,7 +453,7 @@ def projectSettings(request):
         'spotList' : spotList,
         'colorList' : colorList,
         'colors' : Color.objects.all(),
-        'shareNodes' : shareNodes,
+        #'shareNodes' : shareNodes,
     }
 
     return HttpResponse(template.render(context, request))
