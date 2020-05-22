@@ -152,10 +152,6 @@
         $(".createColorFlag").modalForm({
             formURL: "{% url 'createColorFlag' %}"
         });
-/*         $(".createShareNode").modalForm({
-            formURL: "{% url 'createShareNode' %}"
-        });
- */
         $(document).on("click",".editable",function(){
             var value=$(this).text();
             var data_type=$(this).data("type");
