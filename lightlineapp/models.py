@@ -36,11 +36,11 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         instance.profile.save()
 
-    def getCurrentRole(self):
+"""     def getCurrentRole(self):
         activeProject = Project.objects.get(lightingDesigner=self, active=True)
         nodes = ShareNode.objects.filter(project = activeProject)
         return nodes.get(profile=self).getRole()
-
+ """
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     lastUpdate = models.DateTimeField(auto_now=True)
@@ -137,7 +137,7 @@ class Operator(models.Model):
     notes = models.CharField(max_length=512)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
     #Bridge between host user and shared user
-    shareNode = models.ForeignKey(ShareNode, on_delete=models.CASCADE, default=1)
+    #shareNode = models.ForeignKey(ShareNode, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.operatorName

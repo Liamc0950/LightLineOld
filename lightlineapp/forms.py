@@ -74,9 +74,9 @@ class ColorFlagForm(BSModalForm):
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class ShareNodeForm(BSModalForm):
+""" class ShareNodeForm(BSModalForm):
     class Meta:
         model = ShareNode
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
-
+ """
