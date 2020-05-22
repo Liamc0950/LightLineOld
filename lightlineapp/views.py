@@ -266,7 +266,7 @@ class ColorFlagCreateView(BSModalCreateView):
         initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
         return initial
 
-class ShareNodeCreateView(BSModalCreateView):
+""" class ShareNodeCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createShareNode.html'
     form_class = ShareNodeForm
     success_message = 'Success: ShareNode was added.'
@@ -276,8 +276,8 @@ class ShareNodeCreateView(BSModalCreateView):
         initial = super(ShareNodeCreateView, self).get_initial(**kwargs)
         initial['project'] = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
         return initial
-
-#Project Settings - ShareNode update
+ """
+""" #Project Settings - ShareNode update
 @csrf_exempt
 def updateShareNode(request):
     id=request.POST.get('id','')
@@ -289,7 +289,7 @@ def updateShareNode(request):
         print("ROLE UPDATED")
     node.save()
     return JsonResponse({"success":"Updated share node"})
-
+ """
 #Project Settings - Followspot update
 @csrf_exempt
 def updateFollowspot(request):

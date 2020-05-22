@@ -53,7 +53,7 @@ class Project(models.Model):
     def __str__(self):
         return self.showName
 
-class ShareNode(models.Model):
+""" class ShareNode(models.Model):
     #Setup options for user roles. These will help to determine permissions
     LD = 1
     ASSISTANT = 2
@@ -81,7 +81,7 @@ class ShareNode(models.Model):
 
     def getRole(self):
         return self.ROLE_CHOICES[self.role - 1][1]
-
+ """
 
 class CueList(models.Model):
     id = models.AutoField(primary_key=True)

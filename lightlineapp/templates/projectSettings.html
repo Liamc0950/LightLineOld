@@ -152,10 +152,10 @@
         $(".createColorFlag").modalForm({
             formURL: "{% url 'createColorFlag' %}"
         });
-        $(".createShareNode").modalForm({
+/*         $(".createShareNode").modalForm({
             formURL: "{% url 'createShareNode' %}"
         });
-
+ */
         $(document).on("click",".editable",function(){
             var value=$(this).text();
             var data_type=$(this).data("type");
@@ -270,7 +270,7 @@
                     console.log("Error Occured");
                 });
             }
-            else if(model == "shareNode"){
+/*             else if(model == "shareNode"){
                 $.ajax({
                 url:"updateShareNode/",
                 type:"POST",
@@ -283,7 +283,7 @@
                     console.log("Error Occured");
                 });
             }
-
+ */
 
 
             //Reload page elements
