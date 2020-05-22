@@ -72,7 +72,7 @@ class ShareNode(models.Model):
         (STAGE_MANAGER, 'Stage Manager'),
     )
 
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1, unique=True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, default=1)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
