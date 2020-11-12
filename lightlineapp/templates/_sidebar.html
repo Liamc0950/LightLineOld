@@ -28,7 +28,6 @@
                     <a href="/lightlineapp/followspots/">
                         <i class="fa fa-tachometer-alt"></i>
                         <span class="menu-text">Followspots</span>
-                        <span class="badge badge-pill badge-warning">Alpha</span>
                     </a>
                 </li>
                 <li>
@@ -59,7 +58,6 @@
                     <a href="#">
                         <i class="fa fa-book"></i>
                         <span class="menu-text">{{activeProject}}</span>
-                        <span class="badge badge-pill badge-danger">Beta</span>
                     </a>
                     <div class="sidebar-submenu">
                     {% if projects %}                
@@ -69,7 +67,7 @@
                                 <a>
                                 <form method="POST" action="/lightlineapp/switchActiveProject/">
                                     {% csrf_token %}
-                                    <button type="submit">
+                                    <button class="projectButton" type="submit">
                                         {{ project }}
                                         <input type="hidden" name="proj" value="{{ project.id }}">
                                         <input type="hidden" name="next" value="{{ request.path }}">
@@ -91,7 +89,6 @@
                     <a href="/lightlineapp/projectSettings">
                         <i class="fa fa-cog"></i>
                         <span class="menu-text">Project Settings</span>
-                        <span class="badge badge-pill badge-danger">Beta</span>
                     </a>
                 </li>
             </ul>
