@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+
+    {% include "_modal.html" %}
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="#">INSTRUMENT DATABASE</a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button class="addCue btn btn-secondary"type="button" name="button">ADD INSTRUMENTS</button>                
+                <a href="printPDF" class="printPDF btn btn-secondary" style="background-color: transparent;">PRINT PAPERWORK</a>
+                <a href="exportEosCSV/" class="exportEosCSV btn btn-secondary" style="background-color: transparent;">EXPORT EOS CSV</a>
+                <a href="importLWCSV/" class="importLWCSV btn btn-secondary" style="background-color: transparent;">IMPORT LW CSV</a>
+            </div>
+        </div>
+    </nav>
+    <table class="table table-dark table-hover ">
+        <thead>
+        <tr class="tableHead">
+            <th scope="col">INSTRUMENT TYPE</th>
+            <th scope="col">POSITION</th>
+            <th scope="col">UNIT #</th>
+            <th scope="col">LOAD</th>
+            <th scope="col">ACCESSORY</th>
+            <th scope="col">COLOR</th>
+            <th scope="col">GOBO</th>
+            <th scope="col">PURPOSE</th>
+            <th scope="col">DIMMER</th>
+            <th scope="col">ADDRESS</th>
+            <th scope="col">UNIVERSE</th>
+            <th scope="col">CHANNEL #</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        {% if instrumentList %}
+        <tbody>
+            {% for instrument in instrumentList %}
+                <tr class="cueRow">
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="instrumentType" scope="row" data-model="database">{{instrument.instrumentType}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="position" data-model="database"> {{instrument.position}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="unitNumber" data-model="database">{{instrument.unitNumber}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="load" data-model="database">{{instrument.instrumentType.load}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="accessory" data-model="database">{{instrument.accessory}}</td>
+                    <td data-id="{{ instrument.id }}" data-input="choice" data-type="color" data-model="Color">{{color}}
+                    {% for color in instrument.getColors %}
+                        <div class="editable" data-id="{{ instrument.id }}" data-input="choice" data-type="color" data-model="Color">{{color}}
+                        </div>
+                        <span class="dot" style= "height: 25px; width: 25px; background-color:{{color.colorHex}}; border-radius: 50%; display: inline-block;"></span>
+                    {% endfor %}
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="gobo" data-model="database">{{instrument.gobo}}
+                        {% if instrument.gobo %}
+                            <!-- <span class="dot" style= "height: 40px; width: 40px; border-radius: 50%; display: inline-block; background: url('/static/images/{{instrument.gobo.imageUrl}}');"> -->
+                            <img src="{% static '' %}images/{{ instrument.gobo.imageUrl}}" style="height: 30px; width: 30px; border-radius: 50%;">
+                        {% endif %}
+                    </td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="purpose" data-model="database">{{instrument.purpose}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="dimmer" data-model="database">{{instrument.dimmer}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="address" data-model="database">{{instrument.address}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="universe" data-model="database">{{instrument.universe}}</td>
+                    <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="channel" data-model="database">{{instrument.channel}}</td>
+
+
+                    <td>
+                        <a href="deleteInstrument/{{instrument.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+{% endblock content %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+        //Create modal and direct to template url
+        $(".addCue").modalForm({
+            formURL: "{% url 'addCue' %}"
+        });
+        $(".addHeader").modalForm({
+            formURL: "{% url 'addHeader' %}"
+        });
+
+        $(document).on("click",".editable",function(){
+            var value=$(this).text();
+            var data_type=$(this).data("type");
+            var data_input=$(this).data("input");
+
+            //Editable table - Choice selections
+            //This will be used for model fields - Operator, Focus, Shot, ColorFlag
+            if(data_input == "choice"){
+                //Currently no choice fields in CueList
+            }
+            //Editable table - Text/Integer input
+            //This will be used for all Cue fields, and for Intensity and Fade Time
+            else{
+                var input_type="text";
+                if(data_type=="created_at")
+                {
+                    input_type="datetime-local";
+                }
+
+                var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control'>";
+                $(this).html(input);
+                $(this).removeClass("editable")
+            }
+        });
+        $(document).on("blur",".input-data",function(){
+            var value=$(this).val();
+            var td=$(this).parent("td");
+            $(this).remove();
+            td.html(value);
+            td.addClass("editable");
+            var type=td.data("type");
+            var model = td.data("model")
+            sendToServer(td.data("id"),value,type, model);
+        });
+
+
+        $(document).on("keypress",".input-data",function(e){
+            var key=e.which;
+            if(key==13){
+                var value=$(this).val();
+                var td=$(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var type=td.data("type");
+                var model = td.data("model")
+                sendToServer(td.data("id"),value,type, model);
+            }
+        });
+        function sendToServer(id,value,type, model){
+            console.log(id);
+            console.log(value);
+            console.log(type);
+            if(model == "cue"){
+                $.ajax({
+                url:"updateCue/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            else if(model == "Action"){
+                $.ajax({
+                url:"updateAction/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            //Reload page elements
+            location.reload();
+        }
+    });
+</script>
+{% endblock extrascripts %}

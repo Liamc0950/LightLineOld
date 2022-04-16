@@ -18,15 +18,9 @@ from unipath import Path
 BASE_DIR = Path(__file__).ancestor(3)
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = "secret key test"
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 
@@ -38,6 +32,12 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'lightlineapp.apps.LightLineAppConfig',
+    'database.apps.DatabaseConfig',
+    'followspots.apps.FollowspotsConfig',
+    'cueList.apps.CuelistConfig',
+    'notes.apps.NotesConfig',
+    'projectManager.apps.ProjectmanagerConfig',
+    'landing.apps.LandingConfig',
     'bootstrap_modal_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'LightLine.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +75,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'LightLine.wsgi.application'
 

@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% include "_modal.html" %}
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="#">CUE LISTS</a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Followspot Tracking toolbar">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a href="addNextCue/{{activeCueList.getLastCue}}" class="addNextCue btn btn-secondary"type="button" name="button">Add Cue</a>
+                <button class="addCue btn btn-secondary"type="button" name="button">Insert Cue</button>                
+                <button class="addHeader btn btn-secondary"type="button" name="button">Add Header</button>                
+                <a href="printPDF" class="printPDF btn btn-secondary" style="background-color: transparent;">Print Paperwork</a>
+                <a href="exportEosCSV/{{activeCueList.id}}" class="printPDF btn btn-secondary" style="background-color: transparent;">Export EOS CSV</a>
+            </div>
+            {% if projectCueLists %}
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ activeCueList }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {% for cueList in projectCueLists %}
+                <li>
+                    <form method="POST" action="/lightlineapp/switchActiveCueList/">
+                        {% csrf_token %}
+                        <button class="dropdown-item btn-secondary" type="submit">
+                            {{ cueList }}
+                            <input type="hidden" name="cueList" value="{{ cueList.id }}">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <a class="dropdown-item btn-secondary" href="createCueList">Create New Cue List</a>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    <table class="table table-dark table-hover ">
+        <thead>
+        <tr class="tableHead">
+            <th scope="col">Cue Number</th>
+            <th scope="col">Label</th>
+            <th scope="col">Page</th>
+            <th scope="col">Time</th>
+            <!-- <th scope="col">Block</th> -->
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        {% if cueList %}
+        <tbody>
+            {% for cue in cueList %}
+                {% if cue.getHeader %}
+                    <tr class="table-dark">
+                        <th colspan="6" class="table-dark editable" data-id="{{ cue.getHeader.headerTitle }}" data-input="text" data-type="headerTitle" scope="row" data-model="header">{{cue.getHeader}}</th>
+                    </tr>
+                {% endif%}
+                <tr class="cueRow">
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="eosCueNumber" scope="row" data-model="cue">{{cue.eosCueNumber}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="cueLabel" data-model="cue"> {{cue.cueLabel}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="pageNumber" data-model="cue">{{cue.pageNumber}}</td>
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="cueTime" data-model="cue">{{cue.cueTime}}</td>
+                    <!-- <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="cueTime" data-model="cue">{% if cue.block %} B {% endif %}</td> -->
+                    <td class="editable" data-id="{{ cue.id }}" data-input="text" data-type="cueDescription" data-model="cue">{{cue.cueDescription}}</td>
+                    <td>
+                        <a href="deleteCue/{{cue.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+{% endblock content %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+        //Create modal and direct to template url
+        $(".addCue").modalForm({
+            formURL: "{% url 'addCue' %}"
+        });
+        $(".addHeader").modalForm({
+            formURL: "{% url 'addHeader' %}"
+        });
+
+        $(document).on("click",".editable",function(){
+            var value=$(this).text();
+            var data_type=$(this).data("type");
+            var data_input=$(this).data("input");
+
+            //Editable table - Choice selections
+            //This will be used for model fields - Operator, Focus, Shot, ColorFlag
+            if(data_input == "choice"){
+                //Currently no choice fields in CueList
+            }
+            //Editable table - Text/Integer input
+            //This will be used for all Cue fields, and for Intensity and Fade Time
+            else{
+                var input_type="text";
+                if(data_type=="created_at")
+                {
+                    input_type="datetime-local";
+                }
+
+                var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control'>";
+                $(this).html(input);
+                $(this).removeClass("editable")
+            }
+        });
+        $(document).on("blur",".input-data",function(){
+            var value=$(this).val();
+            var td=$(this).parent("td");
+            $(this).remove();
+            td.html(value);
+            td.addClass("editable");
+            var type=td.data("type");
+            var model = td.data("model")
+            sendToServer(td.data("id"),value,type, model);
+        });
+
+
+        $(document).on("keypress",".input-data",function(e){
+            var key=e.which;
+            if(key==13){
+                var value=$(this).val();
+                var td=$(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var type=td.data("type");
+                var model = td.data("model")
+                sendToServer(td.data("id"),value,type, model);
+            }
+        });
+        function sendToServer(id,value,type, model){
+            console.log(id);
+            console.log(value);
+            console.log(type);
+            if(model == "cue"){
+                $.ajax({
+                url:"updateCue/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            else if(model == "Action"){
+                $.ajax({
+                url:"updateAction/",
+                type:"POST",
+                data:{id:id,type:type,value:value},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                    console.log("Error Occured");
+                });
+            }
+            //Reload page elements
+            location.reload();
+        }
+    });
+</script>
+{% endblock extrascripts %}

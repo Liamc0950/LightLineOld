@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 from .models import *
 
 admin.site.register(Cue)
+admin.site.register(Header)
 admin.site.register(Action)
 admin.site.register(Color)
+admin.site.register(Gobo)
 admin.site.register(Followspot)
 admin.site.register(Operator)
 admin.site.register(Focus)
@@ -17,6 +19,10 @@ admin.site.register(Shot)
 admin.site.register(ColorFlag)
 admin.site.register(CueList)
 admin.site.register(Project)
+admin.site.register(Instrument)
+admin.site.register(InstrumentType)
+admin.site.register(Accessory)
+admin.site.register(Cable)
 
 class ProfileInline(admin.StackedInline):
     model = Profile

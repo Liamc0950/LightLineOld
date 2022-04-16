@@ -1,0 +1,121 @@
+<nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+        <!-- sidebar-brand  -->
+        <div class="sidebar-item sidebar-brand">
+            <a href="#"><h1>LightLine</h1></a>
+        </div>
+        <!-- sidebar-header  -->
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+            <div class="user-pic">
+            </div>
+            <div class="user-info">
+                <span class="user-name">{{ user.first_name }}
+                    <strong>{{user.last_name}}</strong>
+                </span>
+                <span class="user-role">{{ user.get_username }}</span>
+                <span class="user-status">
+                    <span>{{ user.profile.getCurrentRole}}</span>
+                </span>
+            </div>
+        </div>
+        <!-- sidebar-menu  -->
+        <div class=" sidebar-item sidebar-menu">
+            <ul>
+                <li class="header-menu">
+                    <span>General</span>
+                </li>
+                <li>
+                    <a href="/followspots/">
+                        <i class="fa fa-tachometer-alt"></i>
+                        <span class="menu-text">Followspots</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/cueList/">
+                        <i class="fa fa-list-alt"></i>
+                        <span class="menu-text">Cue List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/database/">
+                        <i class="fa fa-database"></i>
+                        <span class="menu-text">Database</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/notes/">
+                        <i class="fa fa-sticky-note"></i>
+                        <span class="menu-text">Notes</span>
+                        <span class="badge badge-pill badge-danger">COMING SOON</span>
+                    </a>
+                </li>
+                <li class="header-menu">
+                    <span>Projects</span>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-book"></i>
+                        <span class="menu-text">{{activeProject}}</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                    {% if projects %}                
+                        <ul>
+                            {% for project in projects %}
+                            <li>
+                                <a>
+                                <form method="POST" action="/lightlineapp/switchActiveProject/">
+                                    {% csrf_token %}
+                                    <button class="projectButton" type="submit">
+                                        {{ project }}
+                                        <input type="hidden" name="proj" value="{{ project.id }}">
+                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                    </button>
+                                </form>
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li>
+                                <a href="/lightlineapp/createProject">
+                                    Create New Project
+                                </a>
+                            </li>            
+                        </ul>
+                    {% endif %}
+                    </div>
+                </li>
+                <li>
+                    <a href="/lightlineapp/projectSettings">
+                        <i class="fa fa-cog"></i>
+                        <span class="menu-text">Project Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar-menu  -->
+    </div>
+    <!-- sidebar-footer  -->
+    <div class="sidebar-footer">
+        <div class="dropdown">
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog"></i>
+                <span class="badge-sonar"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
+                <a class="dropdown-item" href="#">My profile</a>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="#">Setting</a>
+            </div>
+        </div>
+        <div>
+            <!--LOGOUT-->
+            <a href="/lightlineapp/logout/#">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </div>
+        <div class="pinned-footer">
+            <a href="#">
+                <i class="fas fa-ellipsis-h"></i>
+            </a>
+        </div>
+    </div>
+</nav>
