@@ -20,11 +20,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', include('lightlineapp.urls')),
     path('lightlineapp/', include('lightlineapp.urls')),
     path('database/', include('database.urls')),
     path('cueList/', include('cueList.urls')),
     path('followspots/', include('followspots.urls')),
-
-    #path('logout/', auth_views.LogoutView.as_view(), {'next_page': '/lightlineapp'}, name='logout'),
+    path('', include('landing.urls')),
 ]
