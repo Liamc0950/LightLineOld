@@ -14,6 +14,7 @@ from .models import *
 
 from lightlineapp.models import *
 
+
 @login_required
 #Database feature view
 def databaseView(request):
@@ -33,5 +34,6 @@ def databaseView(request):
         'instrumentList' : instrumentList,
     }
 
-    return render(request, "database/database.html", context)
+    return render(request, "database/databaseDatatable.html", context)
+
 

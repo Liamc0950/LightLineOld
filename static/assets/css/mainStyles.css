@@ -48,6 +48,33 @@ body {
     background-color: grey;
 }
 
+/* DATATABLES */
+.dataTables_filter{
+    color:white !important;
+    
+}
+
+input:focus {
+    background-color: yellow;
+  }
+  
+.form-control{
+    width: 25%;
+    background-color:transparent;
+    color:white;
+    border: 1px solid;
+
+}
+
+.dataTables_filter input {
+    color: white;
+    background-color: black; 
+  }
+
+.btn{
+    font-size: 0.9rem;
+}
+
 /* EDITABLE STYLING */
 input{
     background-color: #8d8e92;

@@ -467,3 +467,7 @@
   background: transparent !important;
   color: -internal-light-dark(white, black);
 }
+
+.default-theme .sidebar-wrapper{
+  background-color: #21252A;
+}
