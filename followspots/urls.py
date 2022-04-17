@@ -20,6 +20,4 @@ urlpatterns = [
     path('followspots/createAction/', views.ActionCreateView.as_view(), name='createAction'),
     path('followspots/createFocus/', views.FocusCreateView.as_view(), name='createFocus'),
 
-
-
 ]
