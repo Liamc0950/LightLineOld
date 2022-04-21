@@ -28,10 +28,10 @@ class ProjectCreateView(CreateView):
     template_name = 'projectManager/createProject.html'
     form_class = ProjectCreateForm
     success_message = 'Success: Project was created.'
-    success_url = reverse_lazy('projectSettings')
+    #On success, move on to cue list creation view
+    success_url = reverse_lazy('createCueListPageView')
 
     def get_initial(self, *args, **kwargs):
-        #deactivate other projects
         initial = super(ProjectCreateView, self).get_initial(**kwargs)
         initial['lightingDesigner'] = self.request.user.profile
         initial['active'] = True

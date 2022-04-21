@@ -27,5 +27,9 @@ urlpatterns = [
     path('exportEosCSV/<int:activeCueListID>', views.exportEosCSV, name='exportEosCSV'),
     #CueList Create CueList
     path('createCueList', views.CueListCreateView.as_view(), name='createCueList'),
+    #CueList Create Cue
+    path('createCueList', views.CueListCreateView.as_view(), name='createCueList'),
+    #Page View Create CueList - for project setup sequence page view
+    path('createCueListPageView', views.CueListCreateViewPageView.as_view(), name='createCueListPageView')
 
 ]

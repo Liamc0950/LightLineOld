@@ -21,6 +21,7 @@ from .forms import *
 #Modals
 from bootstrap_modal_forms.generic import BSModalCreateView
 
+from django.utils.decorators import method_decorator
 
 @login_required
 #CueList feature view    
@@ -161,7 +162,7 @@ class HeaderCreateView(BSModalCreateView):
 
         return initial
 
-#CueList Create CueList
+#CueList Create CueList (MODAL VIEW)
 class CueListCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createCueList.html'
     form_class = CueForm
@@ -176,6 +177,37 @@ class CueListCreateView(BSModalCreateView):
         initial['cueList'] = activeCueList
 
         return initial
+
+# Create CueList (PAGE VIEW - USED IN INTITIAL PROJECT SETUP)
+@method_decorator(login_required, name='dispatch')
+class CueListCreateViewPageView(CreateView):
+    template_name = 'cueList/createCueList.html'
+    form_class = CueListCreateForm
+    success_message = 'Success: Cue List was created.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(CueListCreateViewPageView, self).get_initial(**kwargs)
+        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        initial['project'] = activeProject
+
+        return initial
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+
+        #Get the current active project
+        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        #Get all active cueLists linked to this project
+        cueLists = CueList.objects.filter(project=activeProject)
+
+        #Deactivate all active cueLists
+        for cueList in cueLists:
+            cueList.active = False
+            cueList.save()
+
+        return super().form_valid(form)
+
 
 
 #Update Cue 

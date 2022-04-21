@@ -20,5 +20,7 @@ class Project(models.Model):
     #If true, database, cueList, Followspot and notes views will display data from this project
     active = models.BooleanField(default=False)
 
+    
+
     def __str__(self):
         return self.showName

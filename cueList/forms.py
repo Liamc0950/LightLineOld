@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.forms.widgets import HiddenInput
 
 from django import forms
-from cueList.models import Cue, Header
+from .models import *
 
 class CueForm(BSModalForm):
     class Meta:
@@ -18,3 +18,10 @@ class HeaderForm(BSModalForm):
         model = Header
         exclude = ['lastUpdate']
         widgets = {'cueList': forms.HiddenInput()}
+
+class CueListCreateForm(forms.ModelForm):
+    class Meta:
+        model = CueList
+        exclude = ['lastUpdate']
+        widgets = {'active' : forms.HiddenInput(), 
+                   'project' : forms.HiddenInput(),}
