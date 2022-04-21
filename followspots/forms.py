@@ -1,5 +1,5 @@
 from lightlineapp.models import *
-from bootstrap_modal_forms.forms import BSModalForm
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import HiddenInput
@@ -8,7 +8,7 @@ from django import forms
 
 from .models import *
 
-class ActionForm(BSModalForm):
+class ActionForm(BSModalModelForm):
     class Meta:
         model = Action
         exclude = ['lastUpdate']
@@ -20,12 +20,12 @@ class ActionForm(BSModalForm):
         self.fields['focus'].queryset = Focus.objects.filter(project=project)
         self.fields['cue'].queryset = Cue.objects.filter(cueList=activeCueList)
 
-class FocusForm(BSModalForm):
+class FocusForm(BSModalModelForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
-class OperatorForm(BSModalForm):
+class OperatorForm(BSModalModelForm):
     class Meta:
         model = Operator
         exclude = ['lastUpdate']
@@ -36,27 +36,27 @@ class OperatorForm(BSModalForm):
         #self.fields['shareNode'].queryset = ShareNode.objects.filter(project=project, role=6)
 
 
-class FollowspotForm(BSModalForm):
+class FollowspotForm(BSModalModelForm):
     class Meta:
         model = Followspot
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class ColorFlagForm(BSModalForm):
+class ColorFlagForm(BSModalModelForm):
     class Meta:
         model = ColorFlag
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class ShotForm(BSModalForm):
+class ShotForm(BSModalModelForm):
     class Meta:
         model = Shot
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class FocusForm(BSModalForm):
+class FocusForm(BSModalModelForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']
-        # widgets = {'project': forms.HiddenInput()}
+        widgets = {'project': forms.HiddenInput()}
 

@@ -1,5 +1,5 @@
 from .models import *
-from bootstrap_modal_forms.forms import BSModalForm
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import HiddenInput
@@ -19,7 +19,7 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
 
-class ProjectCreateForm(forms.ModelForm):
+class ProjectCreateForm(BSModalModelForm):
     class Meta:
         model = Project
         exclude = ['lastUpdate']
@@ -28,13 +28,13 @@ class ProjectCreateForm(forms.ModelForm):
 
 
 #SETTINGS
-class FocusForm(BSModalForm):
+class FocusForm(BSModalModelForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class OperatorForm(BSModalForm):
+class OperatorForm(BSModalModelForm):
     class Meta:
         model = Operator
         exclude = ['lastUpdate']
@@ -43,25 +43,25 @@ class OperatorForm(BSModalForm):
         super (OperatorForm,self ).__init__(*args,**kwargs)
 
 
-class FollowspotForm(BSModalForm):
+class FollowspotForm(BSModalModelForm):
     class Meta:
         model = Followspot
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class ColorFlagForm(BSModalForm):
+class ColorFlagForm(BSModalModelForm):
     class Meta:
         model = ColorFlag
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class ShotForm(BSModalForm):
+class ShotForm(BSModalModelForm):
     class Meta:
         model = Shot
         exclude = ['lastUpdate']
         widgets = {'project': forms.HiddenInput()}
 
-class FocusForm(BSModalForm):
+class FocusForm(BSModalModelForm):
     class Meta:
         model = Focus
         exclude = ['lastUpdate']

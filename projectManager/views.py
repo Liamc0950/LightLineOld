@@ -23,7 +23,7 @@ from followspots.models import *
 from cueList.models import *
 from database.models import *
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class ProjectCreateView(CreateView):
     template_name = 'projectManager/createProject.html'
     form_class = ProjectCreateForm
@@ -46,7 +46,7 @@ class ProjectCreateView(CreateView):
             project.save()
         return super().form_valid(form)
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 #Create Focus
 class FocusCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createFocus.html'
