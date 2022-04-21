@@ -2,6 +2,10 @@ from django.db import models
 
 from projectManager.models import Project
 
+#Regex for csv parsing
+import re
+
+
 class Breakout(models.Model):
     id = models.AutoField(primary_key=True)
     circuitLabel = models.CharField(max_length = 32, unique=True)

@@ -8,5 +8,6 @@ urlpatterns = [
 
     #DATABASE
     path('', views.databaseView, name='database'),
+    path('importLWCSV/', views.importLWCSV, name='importLWCSV'),
 
 ]

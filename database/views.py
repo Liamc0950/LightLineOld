@@ -14,6 +14,8 @@ from .models import *
 
 from lightlineapp.models import *
 
+#CSV
+import csv
 
 @login_required
 #Database feature view
@@ -34,5 +36,16 @@ def databaseView(request):
     }
 
     return render(request, "database/databaseDatatable.html", context)
+
+#IMPORT CSV FROM LIGHTWRIGHT
+def importLWCSV(request):
+    activeProject = Project.objects.get(lightingDesigner= request.user.profile, active=True)
+    csv = open('lightlineapp/testLWExport.csv', 'r')  
+
+    Instrument.addInstrumentsFromCSV(csv, activeProject)
+
+    csv.close() 
+
+    return HttpResponseRedirect('/database')
 
 
