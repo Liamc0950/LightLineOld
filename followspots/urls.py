@@ -16,7 +16,6 @@ urlpatterns = [
     #followspot app live update
     path('updateAction/', views.updateAction, name='updateAction'),
     #followspot app modals
-    path('createCue/', views.CueCreateViewFS.as_view(), name='createCue'),
     path('createAction/', views.ActionCreateView.as_view(), name='createAction'),
     path('createFocus/', views.FocusCreateView.as_view(), name='createFocus'),
 

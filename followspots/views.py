@@ -14,8 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
-from lightlineapp.models import *
-
+from projectManager.models import *
+from cueList.models import *
+from landing.models import Profile
 from .forms import *
 
 
@@ -26,21 +27,42 @@ from bootstrap_modal_forms.generic import BSModalCreateView
 @login_required
 #Followspots feature view
 def followspotsView(request):
-    #try to get the active project, then get all the cues in cueList linked to active project
+    #try to get the active project
     try:
         activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
-        #get all cues where cueList's project is the active project and cueList is active
-        activeCues = Cue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
-        projectCueLists = CueList.objects.filter(project = activeProject)
-        activeCueList = CueList.objects.get(project = activeProject, active = True)
-        projectOperators = Operator.objects.filter(project = activeProject)
-        projectFocus = Focus.objects.filter(project = activeProject)
-        shots = Shot.objects.all()
-        projectColorFlags = ColorFlag.objects.filter(project = activeProject)
-    #if no active project, set cueList to empty queryset
     except:
-        activeProject = Project.objects.none()
-        cueList = Cue.objects.none()
+        activeProject = None
+    #try to get the active cueList and cues
+    try:
+        activeCueList = CueList.objects.get(project = activeProject, active = True)
+        #get all cues where cueList's project is the activeProject and cueList is active
+        activeCues = Cue.objects.order_by('eosCueNumber').filter(cueList__project = activeProject, cueList__active = True)
+        #get all activeProject cue Lists
+        projectCueLists = CueList.objects.filter(project = activeProject)
+    except:
+        activeCueList = None
+        activeCues = None
+        projectCueLists = None
+    try:
+        #get all operators linked to activeProject
+        projectOperators = Operator.objects.filter(project = activeProject)
+    except:
+        projectOperators = None 
+    try:
+        #Get all focus linked to activeProject
+        projectFocus = Focus.objects.filter(project = activeProject)
+    except:
+        projectFocus = None
+    try:
+        #Get all shots linked to activeProject
+        shots = Shot.objects.all()
+    except:
+        shots = None
+    try:
+        #Get all colorFlags linked to activeProject
+        projectColorFlags = ColorFlag.objects.filter(project = activeProject)
+    except:
+        projectColorFlags = None
 
 
     projects = Project.objects.filter(lightingDesigner=request.user.profile)
@@ -57,25 +79,8 @@ def followspotsView(request):
         'projectColorFlags' : projectColorFlags,
     }
 
-
-
     return HttpResponse(template.render(context, request))
 
-#Followspot Modal Views
-class CueCreateViewFS(BSModalCreateView):
-    template_name = 'followspots/createCue.html'
-    form_class = CueForm
-    success_message = 'Success: Cue was created.'
-    success_url = reverse_lazy('followspots')
-
-    def get_initial(self, *args, **kwargs):
-        initial = super(CueCreateView, self).get_initial(**kwargs)
-        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
-        activeCueList = CueList.objects.get(project = activeProject, active = True)
-        initial['project'] = activeProject
-        initial['cueList'] = activeCueList
-
-        return initial
 
 #Create Focus
 class FocusCreateView(BSModalCreateView):

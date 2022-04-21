@@ -177,5 +177,5 @@ django_heroku.settings(locals())
 
 
 LOGIN_REDIRECT_URL = 'followspots'
-LOGOUT_REDIRECT_URL = '/lightlineapp'
-LOGIN_URL = '/lightlineapp/login'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login'

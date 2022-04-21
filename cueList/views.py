@@ -21,6 +21,7 @@ from .forms import *
 #Modals
 from bootstrap_modal_forms.generic import BSModalCreateView
 
+from django.utils.decorators import method_decorator
 
 @login_required
 #CueList feature view    
@@ -114,14 +115,14 @@ def exportEosCSV(request, activeCueListID):
 
 def switchActiveCueList(request):
     if request.method == "POST":
-        #deactivate other projects
+        #deactivate other cue lists
         activeProject = Project.objects.get(lightingDesigner=request.user.profile, active=True)
         projectCueLists = CueList.objects.filter(project = activeProject)
 
         for cueList in projectCueLists:
             cueList.active = False
             cueList.save()
-        #Activate selected project
+        #Activate selected cue list
         cueListID = request.POST.get('cueList', '/')
         cueList = CueList.objects.get(id=cueListID)
         cueList.active = True;
@@ -161,7 +162,7 @@ class HeaderCreateView(BSModalCreateView):
 
         return initial
 
-#CueList Create CueList
+#CueList Create CueList (MODAL VIEW)
 class CueListCreateView(BSModalCreateView):
     template_name = 'lightlineapp/createCueList.html'
     form_class = CueForm
@@ -176,6 +177,37 @@ class CueListCreateView(BSModalCreateView):
         initial['cueList'] = activeCueList
 
         return initial
+
+# Create CueList (PAGE VIEW - USED IN INTITIAL PROJECT SETUP)
+@method_decorator(login_required, name='dispatch')
+class CueListCreateViewPageView(CreateView):
+    template_name = 'cueList/createCueList.html'
+    form_class = CueListCreateForm
+    success_message = 'Success: Cue List was created.'
+    success_url = reverse_lazy('projectSettings')
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(CueListCreateViewPageView, self).get_initial(**kwargs)
+        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        initial['project'] = activeProject
+
+        return initial
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+
+        #Get the current active project
+        activeProject = Project.objects.get(lightingDesigner=self.request.user.profile, active=True)
+        #Get all active cueLists linked to this project
+        cueLists = CueList.objects.filter(project=activeProject)
+
+        # #Deactivate all active cueLists
+        # for cueList in cueLists:
+        #     cueList.active = False
+        #     cueList.save()
+
+        return super().form_valid(form)
+
 
 
 #Update Cue 
@@ -200,3 +232,36 @@ def updateCue(request):
 
     cue.save()
     return JsonResponse({"success":"Updated Cue"})
+
+def exportEosCSV(request, activeCueListID):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="cueListForEos.csv"'},
+    )
+
+    activeCueList = CueList.objects.get(id=activeCueListID)
+
+    cues = Cue.objects.filter(cueList=activeCueList)
+
+    writer = csv.writer(response)
+    #START TARGET CREATION
+    writer.writerow(['START_TARGETS'])
+    #WRITE HEADERS
+    writer.writerow(['TARGET_TYPE','TARGET_TYPE_AS_TEXT','TARGET_LIST_NUMBER','TARGET_ID','TARGET_DCID','PART_NUMBER','LABEL','TIME_DATA','UP_DELAY','DOWN_TIME','DOWN_DELAY','FOCUS_TIME','FOCUS_DELAY','COLOR_TIME','COLOR_DELAY','BEAM_TIME','BEAM_DELAY','DURATION','MARK','BLOCK','ASSERT','ALL_FADE','PREHEAT','FOLLOW','LINK','LOOP','CURVE','RATE','EXTERNAL_LINKS','EFFECTS','MODE','CUE_NOTES','SCENE_TEXT','SCENE_END'])
+    #START CUE LIST
+    writer.writerow([15,'Cue_List','',activeCueList.cueListNumber,'','',activeCueList.listName,'','','','','','','','','','','','','','','','','','','','','','','','','','',''])
+
+    #WRITE CUES
+    for cue in cues:
+        writer.writerow([1,'Cue',activeCueList.cueListNumber,cue.eosCueNumber,'','',cue.cueLabel,cue.cueTime,'','','','','','','','','',cue.cueTime,'','','','','','','','','','','','','','',cue.getHeader(),''])
+
+    #END CUE LIST
+    writer.writerow([15,'Cue_List','',activeCueList.cueListNumber,'','',activeCueList.listName,'','','','','','','','','','','','','','','','','','','','','','','','','','',''])
+
+
+    
+    #END TARGET CREATION
+    writer.writerow(['END_TARGETS'])
+
+    return response
