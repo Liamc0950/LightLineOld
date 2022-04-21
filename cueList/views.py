@@ -201,10 +201,10 @@ class CueListCreateViewPageView(CreateView):
         #Get all active cueLists linked to this project
         cueLists = CueList.objects.filter(project=activeProject)
 
-        #Deactivate all active cueLists
-        for cueList in cueLists:
-            cueList.active = False
-            cueList.save()
+        # #Deactivate all active cueLists
+        # for cueList in cueLists:
+        #     cueList.active = False
+        #     cueList.save()
 
         return super().form_valid(form)
 

@@ -178,9 +178,9 @@
                         <td></td>
                     </tr>
                     </thead>
-                    {% if cueLists %}
+                    {% if projectCueLists %}
                     <tbody>
-                        {% for cueList in cueLists %}
+                        {% for cueList in projectCueLists %}
                             <tr>
                                 <td class="editable" data-id="{{ cueList.id }}" data-input="text" data-type="index" scope="row" data-model="cueList">{{cueList.listName}}</td>
                                 <td class="editable" data-id="{{ cueList.id }}" data-input="text" data-type="index" scope="row" data-model="cueList">{{cueList.cueListNumber}}</td>

@@ -214,8 +214,6 @@ def projectSettings(request):
         shots = Shot.objects.filter(project = activeProject)
         focusList = Focus.objects.filter(project = activeProject)
         projectColorFlags = ColorFlag.objects.filter(project = activeProject)
-        #shareNodes = ShareNode.objects.filter(project = activeProject)
-    #if no active project, set cueList to empty queryset
     except:
         activeProject = Project.objects.none()
         cueList = Cue.objects.none()
