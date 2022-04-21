@@ -20,9 +20,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('lightlineapp/', include('lightlineapp.urls')),
     path('database/', include('database.urls')),
     path('cueList/', include('cueList.urls')),
     path('followspots/', include('followspots.urls')),
+    path('projectManager/', include('projectManager.urls')),
     path('', include('landing.urls')),
 ]

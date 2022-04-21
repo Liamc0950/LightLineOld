@@ -7,19 +7,4 @@
 {% endblock content %}
 
 {% block extrascripts %}
-<script type="text/javascript">
-    $(document).ready(function() {
-    
-        $(".createCue").modalForm({
-            formURL: "{% url 'createCue' %}"
-        });
-        $(".createAction").modalForm({
-            formURL: "{% url 'createAction' %}"
-        });
-        $(".createFocus").modalForm({
-            formURL: "{% url 'createFocus' %}"
-        });
-    
-    });
-</script>
 {% endblock extrascripts %}

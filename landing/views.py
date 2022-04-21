@@ -7,6 +7,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 
 #Landing and Authorization Views
+from .forms import *
+#User Auth
+from django.contrib.auth import login, authenticate
 
 
 def signup(request):
@@ -21,7 +24,7 @@ def signup(request):
             return redirect('createProject')
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'landing/signup.html', {'form': form})
 
 
 
