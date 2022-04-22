@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import django_heroku
+import sys
 
 from unipath import Path
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'notes.apps.NotesConfig',
     'projectManager.apps.ProjectmanagerConfig',
     'landing.apps.LandingConfig',
+    'coverage',
     'bootstrap_modal_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -171,10 +173,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 
+#STATIC FILES FOR TESTING
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+STATICFILES_STORAGE = (
+    'django.contrib.staticfiles.storage.StaticFilesStorage'
+    if TESTING
+    else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 LOGIN_REDIRECT_URL = 'followspots'
 LOGOUT_REDIRECT_URL = '/'

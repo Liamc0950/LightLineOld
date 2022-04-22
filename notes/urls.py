@@ -6,6 +6,6 @@ from . import views
 urlpatterns = [
 
     #NOTES
-    path('', views.notes, name='notes'),
+    path('', views.notes, name='notes_index'),
 
 ]
