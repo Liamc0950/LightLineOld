@@ -49,7 +49,7 @@ class Note(models.Model):
 
 
 class WorkNote(Note):
-    home_group = models.CharField(max_length=5)
+    noteText = models.CharField(max_length=256)
     channelList = models.CharField(max_length=5)
     changeFieldSelection = models.CharField(max_length=16, choices=FIELD_CHOICES, default='INSTRUMENT_TYPE')
     #THESE FIELD WILL BE MADE AVAILABLE TO USER BASED ON THEIR SELECTION IN changeFieldSelection

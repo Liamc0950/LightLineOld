@@ -31,19 +31,14 @@
                 <th></th>
             </tr>
             </thead>
-            {% if instrumentList %}
-                {% for instrument in instrumentList %}
-                    <tr class="cueRow">
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="instrumentType" scope="row" data-model="database">{{instrument.instrumentType}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="position" data-model="database"> {{instrument.position}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="unitNumber" data-model="database">{{instrument.unitNumber}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="load" data-model="database">{{instrument.instrumentType.load}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="accessory" data-model="database">{{instrument.accessory}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="purpose" data-model="database">{{instrument.purpose}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="dimmer" data-model="database">{{instrument.dimmer}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="address" data-model="database">{{instrument.address}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="universe" data-model="database">{{instrument.universe}}</td>
-                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="channel" data-model="database">{{instrument.channel}}</td>
+            {% if workNotes %}
+                {% for workNote in workNotes %}
+                    <tr class="workNoteRow">
+                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="instrumentType" scope="row" data-model="database">{{workNote.noteText}}</td>
+                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="position" data-model="database"> {{workNote.channelList}}</td>
+                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="unitNumber" data-model="database">{{workNote.createdBy.getName}}</td>
+                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="load" data-model="database">{{workNote.assignedTo.getName}}</td>
+                        <td class="editable" data-id="{{ instrument.id }}" data-input="text" data-type="accessory" data-model="database">{{workNote.priority}}</td>
                         <!-- DELETE BUTTON -->
                         <td>
                             <a href="deleteInstrument/{{instrument.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"> </i></a>
