@@ -8,7 +8,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: #212529;
-    font-size: 1vw;
+    font-size: 0.8vw;
 }
 
 .navbar{
@@ -52,6 +52,10 @@ body {
 .dataTables_filter{
     color:white !important;
     
+}
+
+table.dataTable thead .sorting {
+    background-image: none !important;
 }
 
 input:focus {
