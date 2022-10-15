@@ -24,5 +24,6 @@ urlpatterns = [
     path('cueList/', include('cueList.urls')),
     path('followspots/', include('followspots.urls')),
     path('projectManager/', include('projectManager.urls')),
+    path('notes/', include('notes.urls')),
     path('', include('landing.urls')),
 ]

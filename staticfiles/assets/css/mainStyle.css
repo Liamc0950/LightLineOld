@@ -1,0 +1,106 @@
+.invalid {
+    color: #dc3545;
+    font-size: 80%;
+  }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #212529;
+    font-size: 1vw;
+}
+
+.navbar{
+    font-size: 1vw;
+}
+
+.footer {
+    height: 10%;
+    background-color: #212529;
+}
+
+.cueCell {
+    background-color: grey;
+}
+
+.cueTable {
+    background-color: #212529;
+}
+
+.darkChange {
+    color: 	#a4ffaf !important;
+}
+
+.hotChange {
+    color: #ff7878 !important;
+}
+
+.easyChange {
+    color: #a886ff !important;
+}
+
+.noChange {
+    color: #84a5ff;
+}
+
+.headerRow {
+    background-color: grey;
+}
+
+/* EDITABLE STYLING */
+input{
+    background-color: #8d8e92;
+    border: 0;
+    width: 80%;
+}
+
+/* PROJECT SETTINGS */
+.projectSettingsHeader{
+    padding-bottom: 5%;
+}
+
+.accordion-item {
+    border: 1px solid rgba(35, 65, 100, .15);
+    background: rgb(42, 46, 51);
+}
+
+.accordion-button:not(.collapsed) {
+    color: inherit;
+    background: rgb(101, 104, 109);
+    color: #e8e8e8;
+}
+
+.accordion-button:is(.collapsed) {
+    color: inherit;
+    background: rgb(87, 90, 94);
+    color: #e8e8e8;
+}
+
+
+.accordion-button:not(.collapsed)::after  {
+    filter: brightness(00%) invert(70%);
+}
+
+.accordion-button:focus {
+    box-shadow: inherit;
+}
+
+@media (max-width: 767px) {
+    .accordion-body h3 {
+        font-size: calc(.95rem + 1.5vw);
+    }
+}
+
+.navbar-custom{
+    background: rgb(42, 46, 51) !important;
+}
+
+.table-custom{
+    background: rgb(42, 46, 51) !important;
+    color: white;
+}
+.table-custom:hover{
+    color: white;
+}
+
